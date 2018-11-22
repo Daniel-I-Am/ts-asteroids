@@ -51,21 +51,23 @@ class CanvasHelper {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.spriteMap = new Image();
-        this.spriteMap.src = "./assets/images/SpaceShooterRedux/Spritesheet/sheet.png";
-        fetch('./assets/images/SpaceShooterRedux/Spritesheet/sheet.xml')
-            .then((response) => {
-            return response.text();
-        })
-            .then((str) => {
-            let parser = new DOMParser();
-            this.spriteMapData = [];
-            Array.prototype.forEach.call(parser.parseFromString(str, "text/xml").getElementsByTagName("SubTexture"), (e) => {
-                let atts = e.attributes;
-                this.spriteMapData.push({ name: atts[0].nodeValue, x: parseInt(atts[1].nodeValue), y: parseInt(atts[2].nodeValue), width: parseInt(atts[3].nodeValue), height: parseInt(atts[4].nodeValue) });
+        this.spriteMap.addEventListener('load', () => {
+            fetch('./assets/images/SpaceShooterRedux/Spritesheet/sheet.xml')
+                .then((response) => {
+                return response.text();
+            })
+                .then((str) => {
+                let parser = new DOMParser();
+                this.spriteMapData = [];
+                Array.prototype.forEach.call(parser.parseFromString(str, "text/xml").getElementsByTagName("SubTexture"), (e) => {
+                    let atts = e.attributes;
+                    this.spriteMapData.push({ name: atts[0].nodeValue, x: parseInt(atts[1].nodeValue), y: parseInt(atts[2].nodeValue), width: parseInt(atts[3].nodeValue), height: parseInt(atts[4].nodeValue) });
+                });
+            }).then(() => {
+                callback();
             });
-        }).then(() => {
-            callback();
         });
+        this.spriteMap.src = "./assets/images/SpaceShooterRedux/Spritesheet/sheet.png";
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
     }
