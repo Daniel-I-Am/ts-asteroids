@@ -1,21 +1,38 @@
-class Animal {
-    constructor(name, legs, sound) {
-        this.name = name;
-        this.legs = legs;
-        this.sound = sound;
+class Clock {
+    constructor(hours, minutes, maxHours, maxMinutes = 59) {
+        this.hours = hours;
+        this.minutes = minutes;
+        this.maxHours = maxHours;
+        this.maxMinutes = maxMinutes;
     }
-    getName() {
-        return this.name;
+    getHours() {
+        return this.hours;
     }
-    getLegs() {
-        return this.legs;
+    getMinutes() {
+        return this.minutes;
     }
-    getSound() {
-        return this.sound;
+    addTime() {
+        if (this.minutes === this.maxMinutes) {
+            this.minutes = 0;
+            if (this.hours === this.maxHours) {
+                this.hours = 0;
+                this.hours++;
+            }
+        }
+        else {
+            this.minutes++;
+        }
+    }
+    getTime() {
+        if (this.minutes < 10) {
+            return `${this.hours}:0${this.minutes}`;
+        }
+        return `${this.hours}:${this.minutes}`;
     }
 }
-const animals = [
-    new Animal('dog', 4, 'woof'),
-    new Animal('cat', 4, 'meow')
-];
-animals.forEach((animal) => console.log('A %s has %s legs and goes %s!', animal.getName(), animal.getLegs(), animal.getSound()));
+let clock = new Clock(13, 0, 24, 59);
+for (let i = 0; i < 500; i++) {
+    console.log(clock.getTime());
+    clock.addTime();
+}
+//# sourceMappingURL=app.js.map
