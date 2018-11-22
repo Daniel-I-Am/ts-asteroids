@@ -37,6 +37,18 @@ class Vector {
         return this.multiply(1/this.getSize());
     }
 
+    public max(n: number): Vector {
+        if (this.getSize() <= n)
+            return this;
+        return this.multiply(n/this.getSize());
+    }
+
+    public min(n: number): Vector {
+        if (this.getSize() >= n)
+            return this;
+        return this.multiply(n/this.getSize());
+    }
+
     public rotate(radians: number) {
         if (this.getDim() != 2)
             throw new VectorDimError("Rotate can only be called on a 2-dim vector", `${this.getDim()} != 2`);
