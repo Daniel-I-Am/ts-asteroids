@@ -13,7 +13,7 @@ class Vector {
     }
     add(vector) {
         if (this.getDim() != vector.getDim())
-            throw new VectorDimError("Dimension of vector does not match.", `${this.getDim()} != ${vector.getDim()}`);
+            throw new Error(`Dimension of vector does not match.\n${this.getDim()} != ${vector.getDim()}`);
         let myValue = this.getValue(), thatValue = vector.getValue();
         return new Vector(...myValue.map((e, i) => e + thatValue[i]));
     }
@@ -38,19 +38,13 @@ class Vector {
     }
     rotate(radians) {
         if (this.getDim() != 2)
-            throw new VectorDimError("Rotate can only be called on a 2-dim vector", `${this.getDim()} != 2`);
+            throw new Error(`Rotate can only be called on a 2-dim vector\n${this.getDim()} != 2`);
         let myValue = this.getValue();
         let x = myValue[0], y = myValue[1];
         return new Vector(x * Math.cos(radians) - y * Math.sin(radians), x * Math.sin(radians) + y * Math.cos(radians));
     }
     toString() {
         return `[${this.getValue().map(e => e.toString()).join(", ")}]`;
-    }
-}
-class VectorDimError {
-    constructor(...args) {
-        this.name = "VectorDimError";
-        this.message = args.join("\n");
     }
 }
 class MathHelper {
