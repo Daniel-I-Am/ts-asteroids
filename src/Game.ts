@@ -2,16 +2,7 @@
 /// <reference path="Entity.ts"/>
 /// <reference path="Player.ts"/>
 /// <reference path="Asteroid.ts"/>
-
-interface Location {
-    x: number;
-    y: number
-}
-
-interface Score {
-    playerName: string;
-    score: number;
-}
+/// <reference path="Interfaces.ts"/>
 
 class Game {
     private state: string;

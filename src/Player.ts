@@ -1,11 +1,12 @@
-class Player {
-    private src: string;
+/// <reference path="Entity.ts"/>
+class Player extends Entity {
     private lives: number;
     private name: string;
     private score: number;
-    private location: Location;
 
-    public constructor() {}
+    public constructor(src: string) {
+        super(src);
+    }
     public update() {}
     public eventCallBacks() {}
 }

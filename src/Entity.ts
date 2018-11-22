@@ -1,8 +1,17 @@
 abstract class Entity {
-    private src: string;
+    private image: HTMLImageElement;
+    private location: Location;
+    private rotation: number;
+    private speed: number;
 
-    protected constructor() {}
+    protected constructor(src: string) {
+        this.image = new Image();
+        this.image.src = src;
+    }
 
-    public draw() {}
-    public update() {}
+    public draw(): void {
+        Canvas.drawImage(this.image, this.location, this.rotation);
+    };
+
+    public abstract update(): void;
 }

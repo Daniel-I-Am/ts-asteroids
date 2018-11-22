@@ -1,7 +1,8 @@
-class Asteroid {
-    private src: string;
-    private location: Location;
+/// <reference path="Entity.ts"/>
+class Asteroid extends Entity {
 
-    public constructor() {}
-    
+    public constructor(src: string) {
+        super(src);
+    }
+    public update() {}
 }

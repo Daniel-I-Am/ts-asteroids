@@ -23,4 +23,10 @@ class Canvas {
     public writeButtonToCanvas(
 
     ) {}
+
+    public static drawImage(
+        image: HTMLImageElement,
+        location: Location,
+        rotation: number
+    ) {}
 }
