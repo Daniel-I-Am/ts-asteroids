@@ -63,7 +63,7 @@ class Player extends Entity {
         super(src, canvasHelper);
         this.location = canvasHelper.getCenter();
         this.rotation = 0;
-        this.velocity = new Vector(1, 0);
+        this.velocity = new Vector(0, 0);
     }
     update() {
         this.move();
