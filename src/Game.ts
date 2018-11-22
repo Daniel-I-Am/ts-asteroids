@@ -1,5 +1,5 @@
 /// <reference path="helpers/MathHelper.ts"/>
-/// <reference path="helpers/Canvas.ts"/>
+/// <reference path="helpers/CanvasHelper.ts"/>
 /// <reference path="Entity.ts"/>
 /// <reference path="Player.ts"/>
 /// <reference path="Asteroid.ts"/>
