@@ -20,4 +20,6 @@ class MenuView extends ViewBase {
     protected drawGUI(): void {
         this.menuAsteroid.draw();
     }
+
+    public beforeExit() {}
 }

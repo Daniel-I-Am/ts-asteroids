@@ -54,5 +54,9 @@ class GameView extends ViewBase {
             this.canvasHelper.drawImage("playerLife1_blue.png", <Location>{x: 48 + 32*i, y: 32}, 0);
         }
         this.canvasHelper.writeText(`Score: ${this.player.getScore()} points`, 24, <Location>{x:this.canvasHelper.getWidth()-32, y:32}, "right")
-    } 
+    }
+
+    public beforeExit() {
+        this.player.keyHelper.destroy();
+    };
 }

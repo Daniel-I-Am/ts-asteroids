@@ -1,13 +1,18 @@
+/// <reference path="Interfaces.ts"/>
+/// <reference path="Vector.ts"/>
+
 /// <reference path="helpers/MathHelper.ts"/>
 /// <reference path="helpers/CanvasHelper.ts"/>
+/// <reference path="helpers/KeyHelper.ts"/>
+
 /// <reference path="base/Entity.ts"/>
+/// <reference path="base/ViewBase.ts"/>
+
 /// <reference path="entities/Player.ts"/>
 /// <reference path="entities/Asteroid.ts"/>
-/// <reference path="Interfaces.ts"/>
-/// <reference path="base/ViewBase.ts"/>
+
 /// <reference path="views/GameView.ts"/>
 /// <reference path="views/MenuView.ts"/>
-/// <reference path="Vector.ts"/>
 
 class Game {
     private state: string;
@@ -32,6 +37,8 @@ class Game {
     public switchView(newView: ViewBase): void {
         clearInterval(this.currentInterval);
         this.currentInterval = this.newInterval;
+        if (this.currentView)
+            this.currentView.beforeExit();
         this.currentView = newView;
     }
 }

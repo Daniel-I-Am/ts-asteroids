@@ -7,4 +7,5 @@ abstract class ViewBase {
 
     public abstract update(): void;
     protected abstract drawGUI(): void;
+    public abstract beforeExit(): void;
 }

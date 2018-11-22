@@ -25,8 +25,21 @@ class Vector {
         return new Vector(...myValue.map((e,i) => e+thatValue[i]));
     }
 
+    public sub(vector: Vector): Vector {
+        return this.add(vector.multiply(-1));
+    }
+
     public multiply(scalar: number): Vector {
         return new Vector(...this.getValue().map(e => e*scalar));
+    }
+
+    public rotate(radians: number) {
+        if (this.getDim() != 2)
+            throw new VectorDimError("Rotate can only be called on a 2-dim vector", `${this.getDim()} != 2`);
+        let myValue = this.getValue();
+        let x = myValue[0],
+            y = myValue[1];
+        return new Vector(x*Math.cos(radians)-y*Math.sin(radians), x*Math.sin(radians)+y*Math.cos(radians));
     }
 
     public toString(): string {

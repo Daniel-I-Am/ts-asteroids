@@ -1,3 +1,45 @@
+class Vector {
+    constructor(...args) {
+        this.numbers = args;
+    }
+    getValue() {
+        return this.numbers;
+    }
+    getSize() {
+        return Math.sqrt(this.numbers.map(e => Math.pow(e, 2)).reduce((a, b) => a + b, 0));
+    }
+    getDim() {
+        return this.numbers.length;
+    }
+    add(vector) {
+        if (this.getDim() != vector.getDim())
+            throw new VectorDimError("Dimension of vector does not match.", `${this.getDim()} != ${vector.getDim()}`);
+        let myValue = this.getValue(), thatValue = vector.getValue();
+        return new Vector(...myValue.map((e, i) => e + thatValue[i]));
+    }
+    sub(vector) {
+        return this.add(vector.multiply(-1));
+    }
+    multiply(scalar) {
+        return new Vector(...this.getValue().map(e => e * scalar));
+    }
+    rotate(radians) {
+        if (this.getDim() != 2)
+            throw new VectorDimError("Rotate can only be called on a 2-dim vector", `${this.getDim()} != 2`);
+        let myValue = this.getValue();
+        let x = myValue[0], y = myValue[1];
+        return new Vector(x * Math.cos(radians) - y * Math.sin(radians), x * Math.sin(radians) + y * Math.cos(radians));
+    }
+    toString() {
+        return `[${this.getValue().map(e => e.toString()).join(", ")}]`;
+    }
+}
+class VectorDimError {
+    constructor(...args) {
+        this.name = "VectorDimError";
+        this.message = args.join("\n");
+    }
+}
 class MathHelper {
     constructor() { }
     static randomNumber(min, max, digits = 0) {
@@ -91,6 +133,60 @@ class CanvasHelper {
         this.ctx.restore();
     }
 }
+class KeyHelper {
+    constructor() {
+        this.keyDownHandler = (event) => {
+            switch (event.keyCode) {
+                case 37:
+                case 65:
+                    this.leftPressed = true;
+                    break;
+                case 38:
+                case 87:
+                    this.upPressed = true;
+                    break;
+                case 39:
+                case 68:
+                    this.rightPressed = true;
+                    break;
+                case 40:
+                case 83:
+                    this.downPressed = true;
+                    break;
+            }
+        };
+        this.keyUpHandler = (event) => {
+            switch (event.keyCode) {
+                case 37:
+                case 65:
+                    this.leftPressed = false;
+                    break;
+                case 38:
+                case 87:
+                    this.upPressed = false;
+                    break;
+                case 39:
+                case 68:
+                    this.rightPressed = false;
+                    break;
+                case 40:
+                case 83:
+                    this.downPressed = false;
+                    break;
+            }
+        };
+        this.leftPressed = false;
+        this.rightPressed = false;
+        this.upPressed = false;
+        this.downPressed = false;
+        window.addEventListener("keydown", this.keyDownHandler);
+        window.addEventListener("keyup", this.keyUpHandler);
+    }
+    destroy() {
+        window.removeEventListener("keydown", this.keyDownHandler);
+        window.removeEventListener("keyup", this.keyUpHandler);
+    }
+}
 class Entity {
     constructor(src, canvasHelper) {
         this.canvasHelper = canvasHelper;
@@ -117,9 +213,15 @@ class Entity {
             this.location.y = 0;
     }
 }
+class ViewBase {
+    constructor(canvasHelper) {
+        this.canvasHelper = canvasHelper;
+    }
+}
 class Player extends Entity {
     constructor(src, canvasHelper) {
         super(src, canvasHelper);
+        this.keyHelper = new KeyHelper();
         this.lives = 3;
         this.score = 0;
         this.location = canvasHelper.getCenter();
@@ -127,9 +229,17 @@ class Player extends Entity {
         this.velocity = new Vector(0, 0);
     }
     update() {
+        let rotationRate = .2, acceleration = .2;
+        if (this.keyHelper.leftPressed)
+            this.rotation -= rotationRate;
+        if (this.keyHelper.rightPressed)
+            this.rotation += rotationRate;
+        if (this.keyHelper.upPressed)
+            this.velocity = this.velocity.sub((new Vector(0, 1).multiply(acceleration).rotate(this.rotation)));
+        if (this.keyHelper.downPressed)
+            this.velocity = this.velocity.sub((new Vector(0, -1).multiply(acceleration).rotate(this.rotation)));
         this.move();
     }
-    eventCallBacks() { }
     getLives() {
         return this.lives;
     }
@@ -148,11 +258,6 @@ class Asteroid extends Entity {
     update() {
         this.move();
         this.rotation += this.rotationRate;
-    }
-}
-class ViewBase {
-    constructor(canvasHelper) {
-        this.canvasHelper = canvasHelper;
     }
 }
 class GameView extends ViewBase {
@@ -199,6 +304,10 @@ class GameView extends ViewBase {
         }
         this.canvasHelper.writeText(`Score: ${this.player.getScore()} points`, 24, { x: this.canvasHelper.getWidth() - 32, y: 32 }, "right");
     }
+    beforeExit() {
+        this.player.keyHelper.destroy();
+    }
+    ;
 }
 class MenuView extends ViewBase {
     constructor(canvasHelper, callback, changeView) {
@@ -217,38 +326,7 @@ class MenuView extends ViewBase {
     drawGUI() {
         this.menuAsteroid.draw();
     }
-}
-class Vector {
-    constructor(...args) {
-        this.numbers = args;
-    }
-    getValue() {
-        return this.numbers;
-    }
-    getSize() {
-        return Math.sqrt(this.numbers.map(e => Math.pow(e, 2)).reduce((a, b) => a + b, 0));
-    }
-    getDim() {
-        return this.numbers.length;
-    }
-    add(vector) {
-        if (this.getDim() != vector.getDim())
-            throw new VectorDimError("Dimension of vector does not match.", `${this.getDim()} != ${vector.getDim()}`);
-        let myValue = this.getValue(), thatValue = vector.getValue();
-        return new Vector(...myValue.map((e, i) => e + thatValue[i]));
-    }
-    multiply(scalar) {
-        return new Vector(...this.getValue().map(e => e * scalar));
-    }
-    toString() {
-        return `[${this.getValue().map(e => e.toString()).join(", ")}]`;
-    }
-}
-class VectorDimError {
-    constructor(...args) {
-        this.name = "VectorDimError";
-        this.message = args.join("\n");
-    }
+    beforeExit() { }
 }
 class Game {
     constructor(canvas) {
@@ -261,6 +339,8 @@ class Game {
     switchView(newView) {
         clearInterval(this.currentInterval);
         this.currentInterval = this.newInterval;
+        if (this.currentView)
+            this.currentView.beforeExit();
         this.currentView = newView;
     }
 }
