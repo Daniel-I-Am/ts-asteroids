@@ -91,10 +91,10 @@ class GameView extends ViewBase {
             this.asteroids.forEach(e => {
                 e.update();
             });
-            this.player.draw();
             this.asteroids.forEach(e => {
                 e.draw();
             });
+            this.player.draw();
         };
         this.player = new Player("./assets/images/SpaceShooterRedux/PNG/playerShip1_blue.png", this.canvasHelper);
         this.asteroids = new Array();

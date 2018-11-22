@@ -35,9 +35,9 @@ class GameView extends ViewBase {
             e.update();
         });
 
-        this.player.draw();
         this.asteroids.forEach(e => {
             e.draw();
         });
+        this.player.draw();
     }
 }
