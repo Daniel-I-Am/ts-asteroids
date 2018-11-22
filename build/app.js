@@ -1,42 +1,3 @@
-class Entity {
-    constructor(src, canvasHelper) {
-        this.canvasHelper = canvasHelper;
-        this.src = src;
-    }
-    draw() {
-        this.canvasHelper.drawImage(this.src, this.location, this.rotation);
-    }
-    ;
-    undraw() {
-        this.canvasHelper.clearRect(this.src, this.location, this.rotation);
-    }
-    move() {
-        let velocity = this.velocity.getValue();
-        this.location.x += velocity[0];
-        this.location.y += velocity[1];
-        if (this.location.x < 0)
-            this.location.x = this.canvasHelper.getWidth();
-        if (this.location.x > this.canvasHelper.getWidth())
-            this.location.x = 0;
-        if (this.location.y < 0)
-            this.location.y = this.canvasHelper.getHeight();
-        if (this.location.y > this.canvasHelper.getHeight())
-            this.location.y = 0;
-    }
-}
-class Asteroid extends Entity {
-    constructor(src, canvasHelper, location, rotation, speed, rotationRate = 0) {
-        super(src, canvasHelper);
-        this.location = location;
-        this.rotation = rotation;
-        this.rotationRate = rotationRate;
-        this.velocity = new Vector(Math.cos(MathHelper.toRadian(rotation)) * speed, Math.sin(MathHelper.toRadian(rotation)) * speed).multiply(5);
-    }
-    update() {
-        this.move();
-        this.rotation += this.rotationRate;
-    }
-}
 class MathHelper {
     constructor() { }
     static randomNumber(min, max, digits = 0) {
@@ -130,6 +91,32 @@ class CanvasHelper {
         this.ctx.restore();
     }
 }
+class Entity {
+    constructor(src, canvasHelper) {
+        this.canvasHelper = canvasHelper;
+        this.src = src;
+    }
+    draw() {
+        this.canvasHelper.drawImage(this.src, this.location, this.rotation);
+    }
+    ;
+    undraw() {
+        this.canvasHelper.clearRect(this.src, this.location, this.rotation);
+    }
+    move() {
+        let velocity = this.velocity.getValue();
+        this.location.x += velocity[0];
+        this.location.y += velocity[1];
+        if (this.location.x < 0)
+            this.location.x = this.canvasHelper.getWidth();
+        if (this.location.x > this.canvasHelper.getWidth())
+            this.location.x = 0;
+        if (this.location.y < 0)
+            this.location.y = this.canvasHelper.getHeight();
+        if (this.location.y > this.canvasHelper.getHeight())
+            this.location.y = 0;
+    }
+}
 class Player extends Entity {
     constructor(src, canvasHelper) {
         super(src, canvasHelper);
@@ -148,6 +135,19 @@ class Player extends Entity {
     }
     getScore() {
         return this.score;
+    }
+}
+class Asteroid extends Entity {
+    constructor(src, canvasHelper, location, rotation, speed, rotationRate = 0) {
+        super(src, canvasHelper);
+        this.location = location;
+        this.rotation = rotation;
+        this.rotationRate = rotationRate;
+        this.velocity = new Vector(Math.cos(MathHelper.toRadian(rotation)) * speed, Math.sin(MathHelper.toRadian(rotation)) * speed).multiply(5);
+    }
+    update() {
+        this.move();
+        this.rotation += this.rotationRate;
     }
 }
 class ViewBase {

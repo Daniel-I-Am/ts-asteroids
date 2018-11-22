@@ -1,10 +1,10 @@
 /// <reference path="helpers/MathHelper.ts"/>
 /// <reference path="helpers/CanvasHelper.ts"/>
-/// <reference path="Entity.ts"/>
-/// <reference path="Player.ts"/>
-/// <reference path="Asteroid.ts"/>
+/// <reference path="base/Entity.ts"/>
+/// <reference path="entities/Player.ts"/>
+/// <reference path="entities/Asteroid.ts"/>
 /// <reference path="Interfaces.ts"/>
-/// <reference path="views/ViewBase.ts"/>
+/// <reference path="base/ViewBase.ts"/>
 /// <reference path="views/GameView.ts"/>
 /// <reference path="views/MenuView.ts"/>
 /// <reference path="Vector.ts"/>

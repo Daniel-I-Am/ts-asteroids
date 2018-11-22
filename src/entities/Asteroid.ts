@@ -1,4 +1,3 @@
-/// <reference path="Entity.ts"/>
 class Asteroid extends Entity {
     private rotationRate: number;
 

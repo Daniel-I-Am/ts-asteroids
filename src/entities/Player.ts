@@ -1,4 +1,3 @@
-/// <reference path="Entity.ts"/>
 class Player extends Entity {
     private lives: number;
     private name: string;
