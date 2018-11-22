@@ -33,6 +33,10 @@ class Vector {
         return new Vector(...this.getValue().map(e => e*scalar));
     }
 
+    public normalize(): Vector {
+        return this.multiply(1/this.getSize());
+    }
+
     public rotate(radians: number) {
         if (this.getDim() != 2)
             throw new VectorDimError("Rotate can only be called on a 2-dim vector", `${this.getDim()} != 2`);
