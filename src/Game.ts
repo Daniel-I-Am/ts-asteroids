@@ -4,6 +4,7 @@
 /// <reference path="Asteroid.ts"/>
 /// <reference path="Interfaces.ts"/>
 /// <reference path="Views.ts"/>
+/// <reference path="Vector.ts"/>
 
 class Game {
     private state: string;

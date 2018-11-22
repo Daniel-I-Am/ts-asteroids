@@ -1,16 +1,17 @@
 class Entity {
-    constructor(src) {
+    constructor(src, canvasHelper) {
+        this.canvasHelper = canvasHelper;
         this.image = new Image();
         this.image.src = src;
     }
     draw() {
-        Canvas.drawImage(this.image, this.location, this.rotation);
+        this.canvasHelper.drawImage(this.image, this.location, this.rotation);
     }
     ;
 }
 class Asteroid extends Entity {
-    constructor(src) {
-        super(src);
+    constructor(src, canvasHelper) {
+        super(src, canvasHelper);
     }
     update() { }
 }
@@ -24,13 +25,33 @@ class Canvas {
     writeTextToCanvas(text, fontsize, xCoordinate, yCoordinate, color, alignment) { }
     writeImageToCanvas(src, xCoordinate, yCoordinate) { }
     writeButtonToCanvas() { }
-    static drawImage(image, location, rotation) { }
+    drawImage(image, location, rotation) {
+        this.ctx.save();
+        this.ctx.translate(location.x, location.y);
+        this.ctx.rotate(rotation);
+        this.ctx.drawImage(image, -image.width / 2, -image.height / 2);
+        this.ctx.restore();
+    }
+    getCenter() {
+        return { x: this.getWidth() / 2, y: this.getHeight() / 2 };
+    }
+    getWidth() {
+        return this.canvas.width;
+    }
+    getHeight() {
+        return this.canvas.height;
+    }
 }
 class Player extends Entity {
-    constructor(src) {
-        super(src);
+    constructor(src, canvasHelper) {
+        super(src, canvasHelper);
+        this.location = canvasHelper.getCenter();
+        this.rotation = 0;
+        this.velocity = new Vector(1, 2);
+        console.log(this.velocity.getSize());
     }
-    update() { }
+    update() {
+    }
     eventCallBacks() { }
 }
 class ViewBase {
@@ -53,10 +74,24 @@ class GameView extends ViewBase {
             this.asteroids.forEach(e => {
                 e.update();
             });
+            this.player.draw();
+            this.asteroids.forEach(e => {
+                e.draw();
+            });
         };
-        this.player = new Player("./assets/images/SpaceShooterRedux/PNG/playerShip1_blue.png");
+        this.player = new Player("./assets/images/SpaceShooterRedux/PNG/playerShip1_blue.png", this.canvasHelper);
         this.asteroids = new Array();
-        console.log(this.asteroids);
+    }
+}
+class Vector {
+    constructor(...args) {
+        this.numbers = args;
+    }
+    getValue() {
+        return this.numbers;
+    }
+    getSize() {
+        return this.numbers.map(e => Math.pow(e, 2));
     }
 }
 class Game {

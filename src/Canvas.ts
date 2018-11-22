@@ -31,5 +31,23 @@ class Canvas {
         image: HTMLImageElement,
         location: Location,
         rotation: number
-    ) {}
+    ) {
+        this.ctx.save();
+        this.ctx.translate(location.x, location.y);
+        this.ctx.rotate(rotation);
+        this.ctx.drawImage(image, -image.width/2, -image.height/2);
+        this.ctx.restore();
+    }
+
+    public getCenter(): Location {
+        return <Location>{x: this.getWidth()/2, y: this.getHeight()/2}
+    }
+
+    public getWidth(): number {
+        return this.canvas.width;
+    }
+    
+    public getHeight(): number {
+        return this.canvas.height;
+    }
 }
