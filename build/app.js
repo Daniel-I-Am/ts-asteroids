@@ -1,11 +1,10 @@
 class Entity {
     constructor(src, canvasHelper) {
         this.canvasHelper = canvasHelper;
-        this.image = new Image();
-        this.image.src = src;
+        this.src = src;
     }
     draw() {
-        this.canvasHelper.drawImage(this.image, this.location, this.rotation);
+        this.canvasHelper.drawImage(this.src, this.location, this.rotation);
     }
     ;
     move() {
@@ -29,21 +28,44 @@ class Asteroid extends Entity {
     update() { }
 }
 class Canvas {
-    constructor(canvas) {
+    constructor(canvas, callback) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
+        this.spriteMap = new Image();
+        this.spriteMap.src = "./assets/images/SpaceShooterRedux/Spritesheet/sheet.png";
+        fetch('./assets/images/SpaceShooterRedux/Spritesheet/sheet.xml')
+            .then((response) => {
+            return response.text();
+        })
+            .then((str) => {
+            let parser = new DOMParser();
+            this.spriteMapData = [];
+            Array.prototype.forEach.call(parser.parseFromString(str, "text/xml").getElementsByTagName("SubTexture"), (e) => {
+                let atts = e.attributes;
+                this.spriteMapData.push({ name: atts[0].nodeValue, x: parseInt(atts[1].nodeValue), y: parseInt(atts[2].nodeValue), width: parseInt(atts[3].nodeValue), height: parseInt(atts[4].nodeValue) });
+            });
+            console.table(this.spriteMapData);
+        }).then(() => {
+            callback();
+        });
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
     }
     writeTextToCanvas(text, fontsize, xCoordinate, yCoordinate, color, alignment) { }
     writeImageToCanvas(src, xCoordinate, yCoordinate) { }
     writeButtonToCanvas() { }
-    drawImage(image, location, rotation) {
+    drawImage(src, location, rotation) {
+        let image = this.spriteMapData.filter(obj => {
+            return obj.name === src;
+        })[0];
+        if (!image)
+            return null;
         this.ctx.save();
         this.ctx.translate(location.x, location.y);
         this.ctx.rotate(rotation);
-        this.ctx.drawImage(image, -image.width / 2, -image.height / 2);
+        this.ctx.drawImage(this.spriteMap, image.x, image.y, image.width, image.height, -image.width / 2, -image.height / 2, image.width, image.height);
         this.ctx.restore();
+        return image;
     }
     getCenter() {
         return { x: this.getWidth() / 2, y: this.getHeight() / 2 };
@@ -63,12 +85,15 @@ class Player extends Entity {
         super(src, canvasHelper);
         this.location = canvasHelper.getCenter();
         this.rotation = 0;
-        this.velocity = new Vector(0, 0);
+        this.velocity = new Vector(-1, -1);
     }
     update() {
         this.move();
     }
     eventCallBacks() { }
+    getLives() {
+        return this.lives;
+    }
 }
 class ViewBase {
     constructor(canvasHelper) {
@@ -78,9 +103,9 @@ class ViewBase {
 class MenuView extends ViewBase {
     constructor(canvasHelper) {
         super(canvasHelper);
-        this.update = () => {
-        };
+        this.update = () => { };
     }
+    drawGUI() { }
 }
 class GameView extends ViewBase {
     constructor(canvasHelper) {
@@ -95,9 +120,14 @@ class GameView extends ViewBase {
                 e.draw();
             });
             this.player.draw();
+            this.drawGUI();
         };
-        this.player = new Player("./assets/images/SpaceShooterRedux/PNG/playerShip1_blue.png", this.canvasHelper);
+        this.player = new Player("playerShip1_blue.png", this.canvasHelper);
         this.asteroids = new Array();
+    }
+    drawGUI() {
+        for (let i = 0; i < this.player.getLives(); i++) {
+        }
     }
 }
 class Vector {
@@ -137,10 +167,9 @@ class Game {
         this.loop = () => {
             this.currentView.update();
         };
-        this.canvasHelper = new Canvas(canvas);
+        this.canvasHelper = new Canvas(canvas, () => setInterval(this.loop, 33));
         this.currentView = new GameView(this.canvasHelper);
     }
 }
 const game = new Game(document.getElementById('canvas'));
-setInterval(game.loop, 33);
 //# sourceMappingURL=app.js.map

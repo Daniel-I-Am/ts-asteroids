@@ -6,6 +6,7 @@ abstract class ViewBase {
     }
 
     public abstract update(): void;
+    protected abstract drawGUI(): void;
 }
 
 class MenuView extends ViewBase {
@@ -14,8 +15,8 @@ class MenuView extends ViewBase {
         super(canvasHelper);
     }
 
-    public update = (): void => {
-    }
+    public update = (): void => {}
+    protected drawGUI(): void {}
 }
 
 class GameView extends ViewBase {
@@ -24,7 +25,7 @@ class GameView extends ViewBase {
 
     public constructor(canvasHelper: Canvas) {
         super(canvasHelper)
-        this.player = new Player("./assets/images/SpaceShooterRedux/PNG/playerShip1_blue.png", this.canvasHelper);
+        this.player = new Player("playerShip1_blue.png", this.canvasHelper);
         this.asteroids = new Array<Asteroid>();
     }
 
@@ -39,5 +40,13 @@ class GameView extends ViewBase {
             e.draw();
         });
         this.player.draw();
+
+        this.drawGUI();
     }
+
+    protected drawGUI() {
+        for (let i = 0; i < this.player.getLives(); i++) {
+
+        }
+    } 
 }

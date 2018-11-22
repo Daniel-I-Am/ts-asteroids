@@ -14,7 +14,8 @@ class Game {
     private canvasHelper: Canvas;
 
     public constructor(canvas: HTMLCanvasElement) {
-        this.canvasHelper = new Canvas(canvas);
+        // Load the canvas object, once the images are loaded in, loop the main loop method in this class
+        this.canvasHelper = new Canvas(canvas, () => setInterval(this.loop, 33));
         this.currentView = new GameView(this.canvasHelper);
     }
 
@@ -25,4 +26,3 @@ class Game {
 }
 
 const game = new Game(<HTMLCanvasElement>document.getElementById('canvas'));
-setInterval(game.loop, 33);

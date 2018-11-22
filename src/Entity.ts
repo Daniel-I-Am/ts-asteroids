@@ -1,5 +1,5 @@
 abstract class Entity {
-    private image: HTMLImageElement;
+    private src: string;
     private canvasHelper: Canvas;
 
     protected location: Location;
@@ -8,12 +8,11 @@ abstract class Entity {
 
     protected constructor(src: string, canvasHelper: Canvas) {
         this.canvasHelper = canvasHelper;
-        this.image = new Image();
-        this.image.src = src;
+        this.src = src;
     }
 
     public draw(): void {
-        this.canvasHelper.drawImage(this.image, this.location, this.rotation);
+        this.canvasHelper.drawImage(this.src, this.location, this.rotation);
     };
 
     protected move(): void {
