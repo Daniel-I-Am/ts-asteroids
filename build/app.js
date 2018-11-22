@@ -23,6 +23,19 @@ class Vector {
     multiply(scalar) {
         return new Vector(...this.getValue().map(e => e * scalar));
     }
+    normalize() {
+        return this.multiply(1 / this.getSize());
+    }
+    max(n) {
+        if (this.getSize() <= n)
+            return this;
+        return this.multiply(n / this.getSize());
+    }
+    min(n) {
+        if (this.getSize() >= n)
+            return this;
+        return this.multiply(n / this.getSize());
+    }
     rotate(radians) {
         if (this.getDim() != 2)
             throw new VectorDimError("Rotate can only be called on a 2-dim vector", `${this.getDim()} != 2`);
@@ -222,6 +235,7 @@ class Player extends Entity {
     constructor(src, canvasHelper) {
         super(src, canvasHelper);
         this.keyHelper = new KeyHelper();
+        this.maxSpeed = 20;
         this.lives = 3;
         this.score = 0;
         this.location = canvasHelper.getCenter();
@@ -235,9 +249,9 @@ class Player extends Entity {
         if (this.keyHelper.rightPressed)
             this.rotation += rotationRate;
         if (this.keyHelper.upPressed)
-            this.velocity = this.velocity.sub((new Vector(0, 1).multiply(acceleration).rotate(this.rotation)));
+            this.velocity = this.velocity.sub((new Vector(0, 1).multiply(acceleration).rotate(this.rotation))).max(this.maxSpeed);
         if (this.keyHelper.downPressed)
-            this.velocity = this.velocity.sub((new Vector(0, -1).multiply(acceleration).rotate(this.rotation)));
+            this.velocity = this.velocity.sub((new Vector(0, -1).multiply(acceleration).rotate(this.rotation))).max(this.maxSpeed);
         this.move();
     }
     getLives() {

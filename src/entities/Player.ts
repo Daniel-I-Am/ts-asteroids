@@ -3,10 +3,12 @@ class Player extends Entity {
     private lives: number;
     private name: string;
     private score: number;
+    private maxSpeed: number;
 
     public constructor(src: string, canvasHelper: CanvasHelper) {
         super(src, canvasHelper);
         this.keyHelper = new KeyHelper();
+        this.maxSpeed = 20;
         this.lives = 3;
         this.score = 0;
         this.location = canvasHelper.getCenter();
@@ -19,8 +21,8 @@ class Player extends Entity {
             acceleration = .2;
         if (this.keyHelper.leftPressed) this.rotation -= rotationRate;
         if (this.keyHelper.rightPressed) this.rotation += rotationRate;
-        if (this.keyHelper.upPressed) this.velocity = this.velocity.sub((new Vector(0, 1).multiply(acceleration).rotate(this.rotation)));
-        if (this.keyHelper.downPressed) this.velocity = this.velocity.sub((new Vector(0, -1).multiply(acceleration).rotate(this.rotation)));
+        if (this.keyHelper.upPressed) this.velocity = this.velocity.sub((new Vector(0, 1).multiply(acceleration).rotate(this.rotation))).max(this.maxSpeed);
+        if (this.keyHelper.downPressed) this.velocity = this.velocity.sub((new Vector(0, -1).multiply(acceleration).rotate(this.rotation))).max(this.maxSpeed);
         this.move();
     }
 
