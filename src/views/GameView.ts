@@ -53,6 +53,6 @@ class GameView extends ViewBase {
         for (let i = 0; i < this.player.getLives(); i++) {
             this.canvasHelper.drawImage("playerLife1_blue.png", <Location>{x: 48 + 32*i, y: 32}, 0);
         }
-        this.canvasHelper.writeText(`Score: ${this.player.getScore()} points`, 24, this.canvasHelper.getWidth()-32, 32, "right")
+        this.canvasHelper.writeText(`Score: ${this.player.getScore()} points`, 24, <Location>{x:this.canvasHelper.getWidth()-32, y:32}, "right")
     } 
 }

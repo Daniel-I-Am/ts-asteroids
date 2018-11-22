@@ -66,15 +66,16 @@ class CanvasHelper {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
     }
-    writeText(text, fontsize, xCoordinate, yCoordinate, align = "center", baseLine = "middle", color = "white", fontFamily = "Minecraft") {
+    writeText(text, fontsize, location, align = "center", baseLine = "middle", color = "white", fontFamily = "Minecraft") {
         this.ctx.fillStyle = color;
         this.ctx.font = `${fontsize}px ${fontFamily}`;
         this.ctx.textAlign = align;
         this.ctx.textBaseline = baseLine;
-        this.ctx.fillText(text, xCoordinate, yCoordinate);
+        this.ctx.fillText(text, location.x, location.y);
     }
     drawButton(src, caption, location) {
         this.drawImage(src, location, 0);
+        this.writeText(caption, 24, location, "center", "middle", "black");
     }
     drawImage(src, location, rotation) {
         let image = this.spriteMapData.filter(obj => {
@@ -169,7 +170,7 @@ class GameView extends ViewBase {
         for (let i = 0; i < this.player.getLives(); i++) {
             this.canvasHelper.drawImage("playerLife1_blue.png", { x: 48 + 32 * i, y: 32 }, 0);
         }
-        this.canvasHelper.writeText(`Score: ${this.player.getScore()} points`, 24, this.canvasHelper.getWidth() - 32, 32, "right");
+        this.canvasHelper.writeText(`Score: ${this.player.getScore()} points`, 24, { x: this.canvasHelper.getWidth() - 32, y: 32 }, "right");
     }
 }
 class MenuView extends ViewBase {
@@ -184,8 +185,8 @@ class MenuView extends ViewBase {
         callback();
     }
     drawGUI() {
-        this.canvasHelper.writeText("Asteroids", 96, this.canvasHelper.getCenter().x, 100);
-        this.canvasHelper.writeText("Press Start to Play!", 48, this.canvasHelper.getCenter().x, this.canvasHelper.getHeight() - 50);
+        this.canvasHelper.writeText("Asteroids", 96, { x: this.canvasHelper.getCenter().x, y: 100 });
+        this.canvasHelper.writeText("Press Start to Play!", 48, { x: this.canvasHelper.getCenter().x, y: this.canvasHelper.getHeight() - 50 });
         this.menuAsteroid.draw();
         this.canvasHelper.drawButton("buttonBlue.png", "Start", { x: this.canvasHelper.getCenter().x, y: this.canvasHelper.getHeight() - 200 });
     }
