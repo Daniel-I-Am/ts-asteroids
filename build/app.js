@@ -1,40 +1,36 @@
-class Clock {
-    constructor(hours, minutes, maxHours, maxMinutes = 59) {
-        this.hours = hours;
-        this.minutes = minutes;
-        this.maxHours = maxHours;
-        this.maxMinutes = maxMinutes;
+class ClockDisplay {
+    constructor(currentHour, currentMinute) {
+        this.hours = new NumberDisplay(currentHour, 24);
+        this.minutes = new NumberDisplay(currentMinute, 60);
     }
-    getHours() {
-        return this.hours;
-    }
-    getMinutes() {
-        return this.minutes;
-    }
-    addTime() {
-        if (this.minutes === this.maxMinutes) {
-            this.minutes = 0;
-            if (this.hours === this.maxHours) {
-                this.hours = 0;
-            }
-            else {
-                this.hours++;
-            }
-        }
-        else {
-            this.minutes++;
+    tick() {
+        this.minutes.increment();
+        if (this.minutes.getValue() === 0) {
+            this.hours.increment();
         }
     }
     getTime() {
-        if (this.minutes < 10) {
-            return `${this.hours}:0${this.minutes}`;
-        }
-        return `${this.hours}:${this.minutes}`;
+        let hourVal = this.hours.getValue(), minVal = this.minutes.getValue();
+        return `${hourVal}:${"0".repeat(2 - minVal.toString().length)}${minVal}`;
     }
 }
-let clock = new Clock(13, 0, 24, 59);
+class NumberDisplay {
+    constructor(value, limit) {
+        this.value = value;
+        this.limit = limit;
+    }
+    increment() {
+        this.value++;
+        this.value %= this.limit;
+    }
+    getValue() {
+        return this.value;
+    }
+}
+let date = new Date();
+let clock = new ClockDisplay(date.getHours(), date.getMinutes());
 for (let i = 0; i < 500; i++) {
     console.log(clock.getTime());
-    clock.addTime();
+    clock.tick();
 }
 //# sourceMappingURL=app.js.map
