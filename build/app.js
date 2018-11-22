@@ -73,7 +73,9 @@ class CanvasHelper {
         this.ctx.textBaseline = baseLine;
         this.ctx.fillText(text, xCoordinate, yCoordinate);
     }
-    writeButtonToCanvas() { }
+    drawButton(src, caption, location) {
+        this.drawImage(src, location, 0);
+    }
     drawImage(src, location, rotation) {
         let image = this.spriteMapData.filter(obj => {
             return obj.name === src;
@@ -185,6 +187,7 @@ class MenuView extends ViewBase {
         this.canvasHelper.writeText("Asteroids", 96, this.canvasHelper.getCenter().x, 100);
         this.canvasHelper.writeText("Press Start to Play!", 48, this.canvasHelper.getCenter().x, this.canvasHelper.getHeight() - 50);
         this.menuAsteroid.draw();
+        this.canvasHelper.drawButton("buttonBlue.png", "Start", { x: this.canvasHelper.getCenter().x, y: this.canvasHelper.getHeight() - 200 });
     }
 }
 class Vector {

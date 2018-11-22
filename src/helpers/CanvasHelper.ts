@@ -33,8 +33,7 @@ class CanvasHelper {
     public writeText(
         text: string,
         fontsize: number,
-        xCoordinate: number,
-        yCoordinate: number,
+        location: Location,
         align: CanvasTextAlign = "center",
         baseLine: CanvasTextBaseline = "middle",
         color: string = "white",
@@ -44,12 +43,17 @@ class CanvasHelper {
         this.ctx.font = `${fontsize}px ${fontFamily}`;
         this.ctx.textAlign = align;
         this.ctx.textBaseline = baseLine;
-        this.ctx.fillText(text, xCoordinate, yCoordinate);
+        this.ctx.fillText(text, location.x, location.y);
     }
-    
-    public writeButtonToCanvas(
 
-    ) {}
+    public drawButton(
+        src: string,
+        caption: string,
+        location: Location,
+    ) {
+        this.drawImage(src, location, 0);
+        this.writeText(caption, 24, location, "center", "middle", "black")
+    }
 
     public drawImage(
         src: string,
