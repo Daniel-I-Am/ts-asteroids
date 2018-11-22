@@ -1,3 +1,4 @@
+/// <reference path="MathHelper.ts"/>
 /// <reference path="Canvas.ts"/>
 /// <reference path="Entity.ts"/>
 /// <reference path="Player.ts"/>
