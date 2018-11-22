@@ -22,12 +22,26 @@ class Entity {
     }
 }
 class Asteroid extends Entity {
-    constructor(src, canvasHelper) {
+    constructor(src, canvasHelper, location, rotation, speed) {
         super(src, canvasHelper);
+        this.location = location;
+        this.rotation = rotation;
+        this.velocity = new Vector(Math.cos(MathHelper.toRadian(rotation)) * speed, Math.sin(MathHelper.toRadian(rotation)) * speed).multiply(5);
     }
-    update() { }
+    update() {
+        this.move();
+    }
 }
-class Canvas {
+class MathHelper {
+    constructor() { }
+    static randomNumber(min, max, digits = 0) {
+        return Math.floor(Math.random() * (max - min) * (Math.pow(10, digits))) / (Math.pow(10, digits)) + min;
+    }
+    static toRadian(degrees) {
+        return degrees * Math.PI / 180;
+    }
+}
+class CanvasHelper {
     constructor(canvas, callback) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
@@ -44,7 +58,6 @@ class Canvas {
                 let atts = e.attributes;
                 this.spriteMapData.push({ name: atts[0].nodeValue, x: parseInt(atts[1].nodeValue), y: parseInt(atts[2].nodeValue), width: parseInt(atts[3].nodeValue), height: parseInt(atts[4].nodeValue) });
             });
-            console.table(this.spriteMapData);
         }).then(() => {
             callback();
         });
@@ -119,7 +132,7 @@ class MenuView extends ViewBase {
     drawGUI() { }
 }
 class GameView extends ViewBase {
-    constructor(canvasHelper) {
+    constructor(canvasHelper, callback) {
         super(canvasHelper);
         this.update = () => {
             this.canvasHelper.clear();
@@ -135,6 +148,25 @@ class GameView extends ViewBase {
         };
         this.player = new Player("playerShip1_blue.png", this.canvasHelper);
         this.asteroids = new Array();
+        let asteroidCount = MathHelper.randomNumber(5, 10);
+        let asteroidImages = [
+            { name: "Brown_big", images: [1, 2, 3, 4] },
+            { name: "Brown_med", images: [1, 3] },
+            { name: "Brown_small", images: [1, 2] },
+            { name: "Brown_tiny", images: [1, 2] },
+            { name: "Grey_big", images: [1, 2, 3, 4] },
+            { name: "Grey_med", images: [1, 2] },
+            { name: "Grey_small", images: [1, 2] },
+            { name: "Grey_tiny", images: [1, 2] }
+        ];
+        for (let i = 0; i < asteroidCount; i++) {
+            let asteroidType = asteroidImages[MathHelper.randomNumber(0, asteroidImages.length)];
+            let asteroidSubImage = asteroidType.images[MathHelper.randomNumber(0, asteroidType.images.length)];
+            let spriteSrc = `meteor${asteroidType.name}${asteroidSubImage}.png`;
+            let x = MathHelper.randomNumber(0, this.canvasHelper.getWidth()), y = MathHelper.randomNumber(0, this.canvasHelper.getHeight()), rot = MathHelper.randomNumber(0, 360), speed = MathHelper.randomNumber(0.1, 1.2, 1);
+            this.asteroids.push(new Asteroid(spriteSrc, canvasHelper, { x: x, y: y }, rot, speed));
+        }
+        callback();
     }
     drawGUI() {
         for (let i = 0; i < this.player.getLives(); i++) {
@@ -180,8 +212,7 @@ class Game {
         this.loop = () => {
             this.currentView.update();
         };
-        this.canvasHelper = new Canvas(canvas, () => setInterval(this.loop, 33));
-        this.currentView = new GameView(this.canvasHelper);
+        this.canvasHelper = new CanvasHelper(canvas, () => { this.currentView = new GameView(this.canvasHelper, () => setInterval(this.loop, 33)); });
     }
 }
 const game = new Game(document.getElementById('canvas'));

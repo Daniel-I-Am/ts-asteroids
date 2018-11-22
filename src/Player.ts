@@ -4,7 +4,7 @@ class Player extends Entity {
     private name: string;
     private score: number;
 
-    public constructor(src: string, canvasHelper: Canvas) {
+    public constructor(src: string, canvasHelper: CanvasHelper) {
         super(src, canvasHelper);
         this.lives = 3;
         this.score = 0;

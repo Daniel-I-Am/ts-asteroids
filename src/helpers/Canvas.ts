@@ -1,4 +1,4 @@
-class Canvas {
+class CanvasHelper {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
     private spriteMap: CanvasImageSource;

@@ -1,5 +1,5 @@
-/// <reference path="MathHelper.ts"/>
-/// <reference path="Canvas.ts"/>
+/// <reference path="helpers/MathHelper.ts"/>
+/// <reference path="helpers/Canvas.ts"/>
 /// <reference path="Entity.ts"/>
 /// <reference path="Player.ts"/>
 /// <reference path="Asteroid.ts"/>
@@ -12,12 +12,11 @@ class Game {
     private currentView: ViewBase;
     private highScores: Array<Score>;
 
-    private canvasHelper: Canvas;
+    private canvasHelper: CanvasHelper;
 
     public constructor(canvas: HTMLCanvasElement) {
         // Load the canvas object, once the images are loaded in, loop the main loop method in this class
-        this.canvasHelper = new Canvas(canvas, () => setInterval(this.loop, 33));
-        this.currentView = new GameView(this.canvasHelper);
+        this.canvasHelper = new CanvasHelper(canvas, () => {this.currentView = new GameView(this.canvasHelper, () => setInterval(this.loop, 33))});
     }
 
     public loop = () => {

@@ -1,12 +1,12 @@
 abstract class Entity {
     private src: string;
-    private canvasHelper: Canvas;
+    private canvasHelper: CanvasHelper;
 
     protected location: Location;
     protected rotation: number;
     protected velocity: Vector;
 
-    protected constructor(src: string, canvasHelper: Canvas) {
+    protected constructor(src: string, canvasHelper: CanvasHelper) {
         this.canvasHelper = canvasHelper;
         this.src = src;
     }

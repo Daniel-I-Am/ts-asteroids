@@ -1,7 +1,7 @@
 abstract class ViewBase {
-    protected canvasHelper: Canvas
+    protected canvasHelper: CanvasHelper
 
-    protected constructor(canvasHelper: Canvas) {
+    protected constructor(canvasHelper: CanvasHelper) {
         this.canvasHelper = canvasHelper;
     }
 
@@ -11,7 +11,7 @@ abstract class ViewBase {
 
 class MenuView extends ViewBase {
 
-    public constructor(canvasHelper: Canvas) {
+    public constructor(canvasHelper: CanvasHelper) {
         super(canvasHelper);
     }
 
@@ -23,11 +23,11 @@ class GameView extends ViewBase {
     private player: Player;
     private asteroids: Array<Asteroid>;
 
-    public constructor(canvasHelper: Canvas) {
+    public constructor(canvasHelper: CanvasHelper, callback: () => void) {
         super(canvasHelper)
         this.player = new Player("playerShip1_blue.png", this.canvasHelper);
         this.asteroids = new Array<Asteroid>();
-        let asteroidCount = MathHelper.randomNumber(1, 10);
+        let asteroidCount = MathHelper.randomNumber(5, 10);
         let asteroidImages: AsteroidImage[] = [
             {name: "Brown_big", images: [1,2,3,4]},
             {name: "Brown_med", images: [1,3]},
@@ -43,9 +43,12 @@ class GameView extends ViewBase {
             let asteroidSubImage = asteroidType.images[MathHelper.randomNumber(0, asteroidType.images.length)];
             let spriteSrc = `meteor${asteroidType.name}${asteroidSubImage}.png`;
             let x = MathHelper.randomNumber(0, this.canvasHelper.getWidth()),
-                y = MathHelper.randomNumber(0, this.canvasHelper.getHeight());
-            //let image = this.canvasHelper.drawImage(spriteSrc, <Location>{x: x, y: y}, 0)
+                y = MathHelper.randomNumber(0, this.canvasHelper.getHeight()),
+                rot = MathHelper.randomNumber(0, 360),
+                speed = MathHelper.randomNumber(0.1, 1.2, 1);
+            this.asteroids.push(new Asteroid(spriteSrc, canvasHelper, <Location>{x: x, y: y}, rot, speed))
         }
+        callback();
     }
 
     public update = (): void => {
