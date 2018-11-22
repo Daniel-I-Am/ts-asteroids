@@ -50,6 +50,8 @@ class Player extends Entity {
         this.velocity = new Vector(0, 0);
     }
     update() {
+        Object.keys(this.location).forEach((e, i) => {
+        });
     }
     eventCallBacks() { }
 }

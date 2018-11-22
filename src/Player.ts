@@ -11,7 +11,9 @@ class Player extends Entity {
         this.velocity = new Vector(0, 0);
     }
     public update() {
-
+        Object.keys(this.location).forEach((e: string, i: number) => {
+            this.location[e] += this.velocity.getValue()[i];
+        })
     }
     public eventCallBacks() {}
 }
