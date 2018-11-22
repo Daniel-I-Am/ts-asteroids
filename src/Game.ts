@@ -19,7 +19,7 @@ class Game {
     public constructor(canvas: HTMLCanvasElement) {
         // Load the canvas object, once the images are loaded in,
         // load in the menu and then start the main loop
-        this.canvasHelper = new CanvasHelper(canvas, () => {this.switchView(new MenuView(this.canvasHelper, () => setInterval(this.loop, 33)))});
+        this.canvasHelper = new CanvasHelper(canvas, () => {this.switchView(new MenuView(this.canvasHelper, () => setInterval(this.loop, 33), (newView: ViewBase) => this.switchView(newView)))});
     }
 
     public loop = (): void => {

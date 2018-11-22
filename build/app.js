@@ -7,6 +7,9 @@ class Entity {
         this.canvasHelper.drawImage(this.src, this.location, this.rotation);
     }
     ;
+    undraw() {
+        this.canvasHelper.clearRect(this.src, this.location, this.rotation);
+    }
     move() {
         let velocity = this.velocity.getValue();
         this.location.x += velocity[0];
@@ -73,9 +76,19 @@ class CanvasHelper {
         this.ctx.textBaseline = baseLine;
         this.ctx.fillText(text, location.x, location.y);
     }
-    drawButton(src, caption, location) {
-        this.drawImage(src, location, 0);
+    drawButton(src, caption, location, callback) {
+        let image = this.drawImage(src, location, 0);
+        if (!image)
+            return;
         this.writeText(caption, 24, location, "center", "middle", "black");
+        let _listener = (event) => {
+            let topleft = { x: this.canvas.offsetLeft + location.x - image.width / 2, y: this.canvas.offsetTop + location.y - image.height / 2 }, bottomRight = { x: this.canvas.offsetLeft + location.x + image.width / 2, y: this.canvas.offsetTop + location.y + image.height / 2 };
+            if (event.x < bottomRight.x && event.x > topleft.x && event.y < bottomRight.y && event.y > topleft.y) {
+                this.canvas.removeEventListener('click', _listener);
+                callback(event);
+            }
+        };
+        this.canvas.addEventListener('click', _listener);
     }
     drawImage(src, location, rotation) {
         let image = this.spriteMapData.filter(obj => {
@@ -101,6 +114,18 @@ class CanvasHelper {
     }
     clear() {
         this.ctx.clearRect(0, 0, this.getWidth(), this.getHeight());
+    }
+    clearRect(src, location, rotation) {
+        let image = this.spriteMapData.filter(obj => {
+            return obj.name === src;
+        })[0];
+        if (!image)
+            return null;
+        this.ctx.save();
+        this.ctx.translate(location.x, location.y);
+        this.ctx.rotate(rotation);
+        this.ctx.clearRect(-image.width / 2, -image.height / 2, image.width, image.height);
+        this.ctx.restore();
     }
 }
 class Player extends Entity {
@@ -174,21 +199,21 @@ class GameView extends ViewBase {
     }
 }
 class MenuView extends ViewBase {
-    constructor(canvasHelper, callback) {
+    constructor(canvasHelper, callback, changeView) {
         super(canvasHelper);
         this.update = () => {
-            this.canvasHelper.clear();
+            this.menuAsteroid.undraw();
             this.menuAsteroid.update();
             this.drawGUI();
         };
         this.menuAsteroid = new Asteroid("meteorBrown_big1.png", canvasHelper, this.canvasHelper.getCenter(), 0, 0, .025);
+        this.canvasHelper.writeText("Asteroids", 96, { x: this.canvasHelper.getCenter().x, y: 100 });
+        this.canvasHelper.writeText("Press Start to Play!", 48, { x: this.canvasHelper.getCenter().x, y: this.canvasHelper.getHeight() - 50 });
+        this.canvasHelper.drawButton("buttonBlue.png", "Start", { x: this.canvasHelper.getCenter().x, y: this.canvasHelper.getHeight() - 200 }, (_) => changeView(new GameView(canvasHelper, () => callback())));
         callback();
     }
     drawGUI() {
-        this.canvasHelper.writeText("Asteroids", 96, { x: this.canvasHelper.getCenter().x, y: 100 });
-        this.canvasHelper.writeText("Press Start to Play!", 48, { x: this.canvasHelper.getCenter().x, y: this.canvasHelper.getHeight() - 50 });
         this.menuAsteroid.draw();
-        this.canvasHelper.drawButton("buttonBlue.png", "Start", { x: this.canvasHelper.getCenter().x, y: this.canvasHelper.getHeight() - 200 });
     }
 }
 class Vector {
@@ -228,7 +253,7 @@ class Game {
         this.loop = () => {
             this.currentView.update();
         };
-        this.canvasHelper = new CanvasHelper(canvas, () => { this.switchView(new MenuView(this.canvasHelper, () => setInterval(this.loop, 33))); });
+        this.canvasHelper = new CanvasHelper(canvas, () => { this.switchView(new MenuView(this.canvasHelper, () => setInterval(this.loop, 33), (newView) => this.switchView(newView))); });
     }
     switchView(newView) {
         this.currentView = newView;

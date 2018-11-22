@@ -50,9 +50,20 @@ class CanvasHelper {
         src: string,
         caption: string,
         location: Location,
+        callback: (event: MouseEvent) => void
     ) {
-        this.drawImage(src, location, 0);
+        let image = this.drawImage(src, location, 0);
+        if (!image) return;
         this.writeText(caption, 24, location, "center", "middle", "black")
+        let _listener = (event: MouseEvent) => {
+            let topleft = <Location>{x: this.canvas.offsetLeft+location.x-image.width/2, y: this.canvas.offsetTop+location.y-image.height/2},
+                bottomRight = <Location>{x: this.canvas.offsetLeft+location.x+image.width/2, y: this.canvas.offsetTop+location.y+image.height/2};
+            if (event.x < bottomRight.x && event.x > topleft.x && event.y < bottomRight.y && event.y > topleft.y) {
+                this.canvas.removeEventListener('click', _listener);
+                callback(event);
+            }
+        }
+        this.canvas.addEventListener('click', _listener);
     }
 
     public drawImage(
@@ -86,5 +97,21 @@ class CanvasHelper {
 
     public clear(): void {
         this.ctx.clearRect(0, 0, this.getWidth(), this.getHeight());
+    }
+
+    public clearRect(
+        src: string,
+        location: Location,
+        rotation: number
+    ): void {
+        let image = this.spriteMapData.filter(obj => {
+            return obj.name === src
+        })[0];
+        if (!image) return null;
+        this.ctx.save();
+        this.ctx.translate(location.x, location.y);
+        this.ctx.rotate(rotation);
+        this.ctx.clearRect(-image.width/2, -image.height/2, image.width, image.height);
+        this.ctx.restore();
     }
 }
