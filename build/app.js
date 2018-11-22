@@ -229,7 +229,7 @@ class Player extends Entity {
     constructor(src, canvasHelper) {
         super(src, canvasHelper);
         this.keyHelper = new KeyHelper();
-        this.maxSpeed = 99999999999999999;
+        this.maxSpeed = 20;
         this.lives = 3;
         this.score = 0;
         this.location = canvasHelper.getCenter();
