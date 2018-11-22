@@ -16,6 +16,8 @@ class Clock {
             this.minutes = 0;
             if (this.hours === this.maxHours) {
                 this.hours = 0;
+            }
+            else {
                 this.hours++;
             }
         }

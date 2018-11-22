@@ -1,4 +1,3 @@
-// file: Clock.ts
 class Clock
 {
     private hours: number;
@@ -30,6 +29,7 @@ class Clock
             this.minutes = 0;
             if (this.hours === this.maxHours) {
                 this.hours = 0;
+            } else {
                 this.hours++;
             }
         } else {
@@ -44,12 +44,4 @@ class Clock
         }
         return `${this.hours}:${this.minutes}`;
     }
-}
-
-// file: Main.ts
-let clock = new Clock(13, 0, 24, 59);
-
-for (let i = 0; i < 500; i++) {
-    console.log(clock.getTime());
-    clock.addTime();
 }
