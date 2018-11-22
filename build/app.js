@@ -124,13 +124,6 @@ class ViewBase {
         this.canvasHelper = canvasHelper;
     }
 }
-class MenuView extends ViewBase {
-    constructor(canvasHelper) {
-        super(canvasHelper);
-        this.update = () => { };
-    }
-    drawGUI() { }
-}
 class GameView extends ViewBase {
     constructor(canvasHelper, callback) {
         super(canvasHelper);
@@ -174,6 +167,13 @@ class GameView extends ViewBase {
         }
         this.canvasHelper.writeText(`Score: ${this.player.getScore()} points`, 24, this.canvasHelper.getWidth() - 32, 32, "right");
     }
+}
+class MenuView extends ViewBase {
+    constructor(canvasHelper) {
+        super(canvasHelper);
+        this.update = () => { };
+    }
+    drawGUI() { }
 }
 class Vector {
     constructor(...args) {

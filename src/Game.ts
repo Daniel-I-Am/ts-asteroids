@@ -4,7 +4,9 @@
 /// <reference path="Player.ts"/>
 /// <reference path="Asteroid.ts"/>
 /// <reference path="Interfaces.ts"/>
-/// <reference path="views/Views.ts"/>
+/// <reference path="views/ViewBase.ts"/>
+/// <reference path="views/GameView.ts"/>
+/// <reference path="views/MenuView.ts"/>
 /// <reference path="Vector.ts"/>
 
 class Game {

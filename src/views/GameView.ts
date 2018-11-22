@@ -1,24 +1,3 @@
-abstract class ViewBase {
-    protected canvasHelper: CanvasHelper
-
-    protected constructor(canvasHelper: CanvasHelper) {
-        this.canvasHelper = canvasHelper;
-    }
-
-    public abstract update(): void;
-    protected abstract drawGUI(): void;
-}
-
-class MenuView extends ViewBase {
-
-    public constructor(canvasHelper: CanvasHelper) {
-        super(canvasHelper);
-    }
-
-    public update = (): void => {}
-    protected drawGUI(): void {}
-}
-
 class GameView extends ViewBase {
     private player: Player;
     private asteroids: Array<Asteroid>;
