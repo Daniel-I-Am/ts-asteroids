@@ -229,7 +229,7 @@ class Player extends Entity {
     constructor(src, canvasHelper) {
         super(src, canvasHelper);
         this.keyHelper = new KeyHelper();
-        this.maxSpeed = 20;
+        this.maxSpeed = 99999999999999999;
         this.lives = 3;
         this.score = 0;
         this.location = canvasHelper.getCenter();
@@ -237,7 +237,7 @@ class Player extends Entity {
         this.velocity = new Vector(0, 0);
     }
     update() {
-        let rotationRate = .2, acceleration = .2;
+        let rotationRate = .1, acceleration = .2;
         if (this.keyHelper.leftPressed)
             this.rotation -= rotationRate;
         if (this.keyHelper.rightPressed)
