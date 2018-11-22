@@ -22,14 +22,16 @@ class Entity {
     }
 }
 class Asteroid extends Entity {
-    constructor(src, canvasHelper, location, rotation, speed) {
+    constructor(src, canvasHelper, location, rotation, speed, rotationRate = 0) {
         super(src, canvasHelper);
         this.location = location;
         this.rotation = rotation;
+        this.rotationRate = rotationRate;
         this.velocity = new Vector(Math.cos(MathHelper.toRadian(rotation)) * speed, Math.sin(MathHelper.toRadian(rotation)) * speed).multiply(5);
     }
     update() {
         this.move();
+        this.rotation += this.rotationRate;
     }
 }
 class MathHelper {
@@ -125,7 +127,7 @@ class ViewBase {
     }
 }
 class GameView extends ViewBase {
-    constructor(canvasHelper, callback) {
+    constructor(canvasHelper, callback = null) {
         super(canvasHelper);
         this.update = () => {
             this.canvasHelper.clear();
@@ -159,7 +161,8 @@ class GameView extends ViewBase {
             let x = MathHelper.randomNumber(0, this.canvasHelper.getWidth()), y = MathHelper.randomNumber(0, this.canvasHelper.getHeight()), rot = MathHelper.randomNumber(0, 360), speed = MathHelper.randomNumber(0.1, 1.2, 1);
             this.asteroids.push(new Asteroid(spriteSrc, canvasHelper, { x: x, y: y }, rot, speed));
         }
-        callback();
+        if (callback)
+            callback();
     }
     drawGUI() {
         for (let i = 0; i < this.player.getLives(); i++) {
@@ -169,11 +172,21 @@ class GameView extends ViewBase {
     }
 }
 class MenuView extends ViewBase {
-    constructor(canvasHelper) {
+    constructor(canvasHelper, callback) {
         super(canvasHelper);
-        this.update = () => { };
+        this.update = () => {
+            this.canvasHelper.clear();
+            this.menuAsteroid.update();
+            this.drawGUI();
+        };
+        this.menuAsteroid = new Asteroid("meteorBrown_big1.png", canvasHelper, this.canvasHelper.getCenter(), 0, 0, .025);
+        callback();
     }
-    drawGUI() { }
+    drawGUI() {
+        this.canvasHelper.writeText("Asteroids", 96, this.canvasHelper.getCenter().x, 100);
+        this.canvasHelper.writeText("Press Start to Play!", 48, this.canvasHelper.getCenter().x, this.canvasHelper.getHeight() - 50);
+        this.menuAsteroid.draw();
+    }
 }
 class Vector {
     constructor(...args) {
@@ -212,7 +225,10 @@ class Game {
         this.loop = () => {
             this.currentView.update();
         };
-        this.canvasHelper = new CanvasHelper(canvas, () => { this.currentView = new GameView(this.canvasHelper, () => setInterval(this.loop, 33)); });
+        this.canvasHelper = new CanvasHelper(canvas, () => { this.switchView(new MenuView(this.canvasHelper, () => setInterval(this.loop, 33))); });
+    }
+    switchView(newView) {
+        this.currentView = newView;
     }
 }
 const game = new Game(document.getElementById('canvas'));

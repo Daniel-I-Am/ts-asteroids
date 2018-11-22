@@ -17,14 +17,18 @@ class Game {
     private canvasHelper: CanvasHelper;
 
     public constructor(canvas: HTMLCanvasElement) {
-        // Load the canvas object, once the images are loaded in, loop the main loop method in this class
-        this.canvasHelper = new CanvasHelper(canvas, () => {this.currentView = new GameView(this.canvasHelper, () => setInterval(this.loop, 33))});
+        // Load the canvas object, once the images are loaded in,
+        // load in the menu and then start the main loop
+        this.canvasHelper = new CanvasHelper(canvas, () => {this.switchView(new MenuView(this.canvasHelper, () => setInterval(this.loop, 33)))});
     }
 
-    public loop = () => {
+    public loop = (): void => {
         this.currentView.update();
     }
     
+    public switchView(newView: ViewBase): void {
+        this.currentView = newView;
+    }
 }
 
 const game = new Game(<HTMLCanvasElement>document.getElementById('canvas'));

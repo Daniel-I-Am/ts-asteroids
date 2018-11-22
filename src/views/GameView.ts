@@ -2,7 +2,7 @@ class GameView extends ViewBase {
     private player: Player;
     private asteroids: Array<Asteroid>;
 
-    public constructor(canvasHelper: CanvasHelper, callback: () => void) {
+    public constructor(canvasHelper: CanvasHelper, callback: () => void = null) {
         super(canvasHelper)
         this.player = new Player("playerShip1_blue.png", this.canvasHelper);
         this.asteroids = new Array<Asteroid>();
@@ -27,7 +27,8 @@ class GameView extends ViewBase {
                 speed = MathHelper.randomNumber(0.1, 1.2, 1);
             this.asteroids.push(new Asteroid(spriteSrc, canvasHelper, <Location>{x: x, y: y}, rot, speed))
         }
-        callback();
+        if (callback)
+            callback();
     }
 
     public update = (): void => {
