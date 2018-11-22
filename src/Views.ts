@@ -25,6 +25,8 @@ class GameView extends ViewBase {
     public constructor(canvasHelper: Canvas) {
         super(canvasHelper)
         this.player = new Player("./assets/images/SpaceShooterRedux/PNG/playerShip1_blue.png");
+        this.asteroids = new Array<Asteroid>();
+        console.log(this.asteroids);
     }
 
     public update = (): void => {

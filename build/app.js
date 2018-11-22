@@ -53,6 +53,8 @@ class GameView extends ViewBase {
             });
         };
         this.player = new Player("./assets/images/SpaceShooterRedux/PNG/playerShip1_blue.png");
+        this.asteroids = new Array();
+        console.log(this.asteroids);
     }
 }
 class Game {
@@ -61,7 +63,7 @@ class Game {
             this.currentView.update();
         };
         this.canvasHelper = new Canvas(canvas);
-        this.currentView = new MenuView(this.canvasHelper);
+        this.currentView = new GameView(this.canvasHelper);
     }
 }
 const game = new Game(document.getElementById('canvas'));

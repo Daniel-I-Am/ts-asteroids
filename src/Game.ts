@@ -14,7 +14,7 @@ class Game {
 
     public constructor(canvas: HTMLCanvasElement) {
         this.canvasHelper = new Canvas(canvas);
-        this.currentView = new MenuView(this.canvasHelper);
+        this.currentView = new GameView(this.canvasHelper);
     }
 
     public loop = () => {
