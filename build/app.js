@@ -51,7 +51,13 @@ class Canvas {
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight;
     }
-    writeTextToCanvas(text, fontsize, xCoordinate, yCoordinate, color, alignment) { }
+    writeText(text, fontsize, xCoordinate, yCoordinate, align = "center", baseLine = "middle", color = "white", fontFamily = "Minecraft") {
+        this.ctx.fillStyle = color;
+        this.ctx.font = `${fontsize}px ${fontFamily}`;
+        this.ctx.textAlign = align;
+        this.ctx.textBaseline = baseLine;
+        this.ctx.fillText(text, xCoordinate, yCoordinate);
+    }
     writeImageToCanvas(src, xCoordinate, yCoordinate) { }
     writeButtonToCanvas() { }
     drawImage(src, location, rotation) {
@@ -83,6 +89,8 @@ class Canvas {
 class Player extends Entity {
     constructor(src, canvasHelper) {
         super(src, canvasHelper);
+        this.lives = 3;
+        this.score = 0;
         this.location = canvasHelper.getCenter();
         this.rotation = 0;
         this.velocity = new Vector(0, 0);
@@ -93,6 +101,9 @@ class Player extends Entity {
     eventCallBacks() { }
     getLives() {
         return this.lives;
+    }
+    getScore() {
+        return this.score;
     }
 }
 class ViewBase {
@@ -127,7 +138,9 @@ class GameView extends ViewBase {
     }
     drawGUI() {
         for (let i = 0; i < this.player.getLives(); i++) {
+            this.canvasHelper.drawImage("playerLife1_blue.png", { x: 48 + 32 * i, y: 32 }, 0);
         }
+        this.canvasHelper.writeText(`Score: ${this.player.getScore()} points`, 24, this.canvasHelper.getWidth() - 32, 32, "right");
     }
 }
 class Vector {

@@ -30,14 +30,23 @@ class Canvas {
         this.canvas.height = window.innerHeight;
     }
 
-    public writeTextToCanvas(
+    public writeText(
         text: string,
         fontsize: number,
         xCoordinate: number,
         yCoordinate: number,
-        color: string,
-        alignment: CanvasTextAlign,
-    ) {}
+        align: CanvasTextAlign = "center",
+        baseLine: CanvasTextBaseline = "middle",
+        color: string = "white",
+        fontFamily: string = "Minecraft"
+    ) {
+        this.ctx.fillStyle = color;
+        this.ctx.font = `${fontsize}px ${fontFamily}`;
+        this.ctx.textAlign = align;
+        this.ctx.textBaseline = baseLine;
+        this.ctx.fillText(text, xCoordinate, yCoordinate);
+    }
+
     public writeImageToCanvas(
         src: string,
         xCoordinate: number,

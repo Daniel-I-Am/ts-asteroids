@@ -30,23 +30,27 @@ class GameView extends ViewBase {
     }
 
     public update = (): void => {
+        // update the active entities
         this.canvasHelper.clear();
         this.player.update();
         this.asteroids.forEach(e => {
             e.update();
         });
 
+        // draw the active entities
         this.asteroids.forEach(e => {
             e.draw();
         });
         this.player.draw();
 
+        // Finish up with the GUI, should be over top everything else
         this.drawGUI();
     }
 
     protected drawGUI() {
         for (let i = 0; i < this.player.getLives(); i++) {
-
+            this.canvasHelper.drawImage("playerLife1_blue.png", <Location>{x: 48 + 32*i, y: 32}, 0);
         }
+        this.canvasHelper.writeText(`Score: ${this.player.getScore()} points`, 24, this.canvasHelper.getWidth()-32, 32, "right")
     } 
 }
