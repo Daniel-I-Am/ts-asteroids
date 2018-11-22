@@ -5,6 +5,9 @@ class Canvas {
     public constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
+
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
     }
 
     public writeTextToCanvas(
@@ -24,7 +27,7 @@ class Canvas {
 
     ) {}
 
-    public static drawImage(
+    public drawImage(
         image: HTMLImageElement,
         location: Location,
         rotation: number

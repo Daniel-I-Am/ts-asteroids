@@ -18,6 +18,8 @@ class Canvas {
     constructor(canvas) {
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
     }
     writeTextToCanvas(text, fontsize, xCoordinate, yCoordinate, color, alignment) { }
     writeImageToCanvas(src, xCoordinate, yCoordinate) { }
