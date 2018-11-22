@@ -21,7 +21,7 @@ class Canvas {
                     let atts = e.attributes;
                     this.spriteMapData.push({name: atts[0].nodeValue, x: parseInt(atts[1].nodeValue), y: parseInt(atts[2].nodeValue), width: parseInt(atts[3].nodeValue), height: parseInt(atts[4].nodeValue)});
                 });
-                console.table(this.spriteMapData);
+                //console.table(this.spriteMapData);
             }).then(() => {
                 callback();
             });
