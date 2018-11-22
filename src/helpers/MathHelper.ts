@@ -10,6 +10,10 @@ class MathHelper {
         return Math.floor(Math.random()*(max-min)*(10**digits))/(10**digits)+min;
     }
 
+    /**
+     * Turns degrees into radians
+     * @param degrees 
+     */
     public static toRadian(degrees: number) {
         return degrees*Math.PI/180
     }
