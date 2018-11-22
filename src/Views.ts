@@ -27,6 +27,25 @@ class GameView extends ViewBase {
         super(canvasHelper)
         this.player = new Player("playerShip1_blue.png", this.canvasHelper);
         this.asteroids = new Array<Asteroid>();
+        let asteroidCount = MathHelper.randomNumber(1, 10);
+        let asteroidImages: AsteroidImage[] = [
+            {name: "Brown_big", images: [1,2,3,4]},
+            {name: "Brown_med", images: [1,3]},
+            {name: "Brown_small", images: [1,2]},
+            {name: "Brown_tiny", images: [1,2]},
+            {name: "Grey_big", images: [1,2,3,4]},
+            {name: "Grey_med", images: [1,2]},
+            {name: "Grey_small", images: [1,2]},
+            {name: "Grey_tiny", images: [1,2]}
+        ];
+        for (let i = 0; i < asteroidCount; i++) {
+            let asteroidType = asteroidImages[MathHelper.randomNumber(0, asteroidImages.length)];
+            let asteroidSubImage = asteroidType.images[MathHelper.randomNumber(0, asteroidType.images.length)];
+            let spriteSrc = `meteor${asteroidType.name}${asteroidSubImage}.png`;
+            let x = MathHelper.randomNumber(0, this.canvasHelper.getWidth()),
+                y = MathHelper.randomNumber(0, this.canvasHelper.getHeight());
+            //let image = this.canvasHelper.drawImage(spriteSrc, <Location>{x: x, y: y}, 0)
+        }
     }
 
     public update = (): void => {
