@@ -15,3 +15,8 @@ interface SpriteSheetTexture {
     width: number;
     height: number;
 }
+
+interface AsteroidImage {
+    name: string;
+    images: number[];
+}
