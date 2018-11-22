@@ -46,12 +46,7 @@ class CanvasHelper {
         this.ctx.textBaseline = baseLine;
         this.ctx.fillText(text, xCoordinate, yCoordinate);
     }
-
-    public writeImageToCanvas(
-        src: string,
-        xCoordinate: number,
-        yCoordinate: number,
-    ) {}
+    
     public writeButtonToCanvas(
 
     ) {}

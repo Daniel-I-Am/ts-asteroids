@@ -73,7 +73,6 @@ class CanvasHelper {
         this.ctx.textBaseline = baseLine;
         this.ctx.fillText(text, xCoordinate, yCoordinate);
     }
-    writeImageToCanvas(src, xCoordinate, yCoordinate) { }
     writeButtonToCanvas() { }
     drawImage(src, location, rotation) {
         let image = this.spriteMapData.filter(obj => {
