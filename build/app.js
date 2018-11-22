@@ -1,3 +1,15 @@
+class Asteroid {
+    constructor() { }
+}
+class Canvas {
+    constructor(canvas, ctx) {
+        this.canvas = canvas;
+        this.ctx = ctx;
+    }
+    writeTextToCanvas(text, fontsize, xCoordinate, yCoordinate, color, alignment) { }
+    writeImageToCanvas(src, xCoordinate, yCoordinate) { }
+    writeButtonToCanvas() { }
+}
 class ClockDisplay {
     constructor(currentHour, currentMinute) {
         this.hours = new NumberDisplay(currentHour, 24);
@@ -13,6 +25,20 @@ class ClockDisplay {
         let hourVal = this.hours.getValue(), minVal = this.minutes.getValue();
         return `${hourVal}:${"0".repeat(2 - minVal.toString().length)}${minVal}`;
     }
+}
+class Entity {
+    constructor() { }
+    draw() { }
+    update() { }
+}
+class Player {
+    constructor() { }
+    update() { }
+    eventCallBacks() { }
+}
+class Game {
+    constructor() { }
+    loop() { }
 }
 class NumberDisplay {
     constructor(value, limit) {
