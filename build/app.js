@@ -52,6 +52,7 @@ class GameView extends ViewBase {
                 e.update();
             });
         };
+        this.player = new Player("./assets/images/SpaceShooterRedux/PNG/playerShip1_blue.png");
     }
 }
 class Game {
