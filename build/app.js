@@ -47,8 +47,7 @@ class Player extends Entity {
         super(src, canvasHelper);
         this.location = canvasHelper.getCenter();
         this.rotation = 0;
-        this.velocity = new Vector(1, 2);
-        console.log(this.velocity.getSize());
+        this.velocity = new Vector(0, 0);
     }
     update() {
     }
@@ -91,7 +90,28 @@ class Vector {
         return this.numbers;
     }
     getSize() {
-        return this.numbers.map(e => Math.pow(e, 2));
+        return Math.sqrt(this.numbers.map(e => Math.pow(e, 2)).reduce((a, b) => a + b, 0));
+    }
+    getDim() {
+        return this.numbers.length;
+    }
+    add(vector) {
+        if (this.getDim() != vector.getDim())
+            throw new VectorDimError("Dimension of vector does not match.", `${this.getDim()} != ${vector.getDim()}`);
+        let myValue = this.getValue(), thatValue = vector.getValue();
+        return new Vector(...myValue.map((e, i) => e + thatValue[i]));
+    }
+    multiply(scalar) {
+        return new Vector(...this.getValue().map(e => e * scalar));
+    }
+    toString() {
+        return `[${this.getValue().map(e => e.toString()).join(", ")}]`;
+    }
+}
+class VectorDimError {
+    constructor(...args) {
+        this.name = "VectorDimError";
+        this.message = args.join("\n");
     }
 }
 class Game {

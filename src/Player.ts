@@ -8,8 +8,7 @@ class Player extends Entity {
         super(src, canvasHelper);
         this.location = canvasHelper.getCenter();
         this.rotation = 0;
-        this.velocity = new Vector(1, 2);
-        console.log(this.velocity.getSize());
+        this.velocity = new Vector(0, 0);
     }
     public update() {
 
