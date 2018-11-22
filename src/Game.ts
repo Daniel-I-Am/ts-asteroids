@@ -13,13 +13,16 @@ class Game {
     private state: string;
     private currentView: ViewBase;
     private highScores: Array<Score>;
+    private currentInterval: number;
+    private newInterval: number;
 
     private canvasHelper: CanvasHelper;
 
     public constructor(canvas: HTMLCanvasElement) {
         // Load the canvas object, once the images are loaded in,
         // load in the menu and then start the main loop
-        this.canvasHelper = new CanvasHelper(canvas, () => {this.switchView(new MenuView(this.canvasHelper, () => setInterval(this.loop, 33), (newView: ViewBase) => this.switchView(newView)))});
+        this.currentInterval = null;
+        this.canvasHelper = new CanvasHelper(canvas, () => {this.switchView(new MenuView(this.canvasHelper, () => {this.newInterval = setInterval(this.loop, 33)}, (newView: ViewBase) => this.switchView(newView)))});
     }
 
     public loop = (): void => {
@@ -27,6 +30,8 @@ class Game {
     }
     
     public switchView(newView: ViewBase): void {
+        clearInterval(this.currentInterval);
+        this.currentInterval = this.newInterval;
         this.currentView = newView;
     }
 }

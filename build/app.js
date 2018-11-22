@@ -253,9 +253,12 @@ class Game {
         this.loop = () => {
             this.currentView.update();
         };
-        this.canvasHelper = new CanvasHelper(canvas, () => { this.switchView(new MenuView(this.canvasHelper, () => setInterval(this.loop, 33), (newView) => this.switchView(newView))); });
+        this.currentInterval = null;
+        this.canvasHelper = new CanvasHelper(canvas, () => { this.switchView(new MenuView(this.canvasHelper, () => { this.newInterval = setInterval(this.loop, 33); }, (newView) => this.switchView(newView))); });
     }
     switchView(newView) {
+        clearInterval(this.currentInterval);
+        this.currentInterval = this.newInterval;
         this.currentView = newView;
     }
 }
