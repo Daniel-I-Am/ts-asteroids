@@ -2,9 +2,9 @@ class Canvas {
     private canvas: HTMLCanvasElement;
     private ctx: CanvasRenderingContext2D;
     
-    public constructor(canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) {
+    public constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
-        this.ctx = ctx;
+        this.ctx = canvas.getContext('2d');
     }
 
     public writeTextToCanvas(
