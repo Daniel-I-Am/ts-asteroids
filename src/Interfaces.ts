@@ -1,6 +1,6 @@
 interface Location {
     x: number;
-    y: number
+    y: number;
 }
 
 interface Score {
