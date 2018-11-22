@@ -16,5 +16,11 @@ abstract class Entity {
         this.canvasHelper.drawImage(this.image, this.location, this.rotation);
     };
 
+    protected move(): void {
+        let velocity = this.velocity.getValue();
+        this.location.x += velocity[0];
+        this.location.y += velocity[1];
+    }
+
     public abstract update(): void;
 }

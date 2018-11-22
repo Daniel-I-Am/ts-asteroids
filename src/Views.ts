@@ -29,6 +29,7 @@ class GameView extends ViewBase {
     }
 
     public update = (): void => {
+        this.canvasHelper.clear()
         this.player.update();
         this.asteroids.forEach(e => {
             e.update();

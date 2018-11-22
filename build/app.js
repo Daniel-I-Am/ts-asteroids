@@ -8,6 +8,11 @@ class Entity {
         this.canvasHelper.drawImage(this.image, this.location, this.rotation);
     }
     ;
+    move() {
+        let velocity = this.velocity.getValue();
+        this.location.x += velocity[0];
+        this.location.y += velocity[1];
+    }
 }
 class Asteroid extends Entity {
     constructor(src, canvasHelper) {
@@ -41,18 +46,19 @@ class Canvas {
     getHeight() {
         return this.canvas.height;
     }
+    clear() {
+        this.ctx.clearRect(0, 0, this.getWidth(), this.getHeight());
+    }
 }
 class Player extends Entity {
     constructor(src, canvasHelper) {
         super(src, canvasHelper);
         this.location = canvasHelper.getCenter();
         this.rotation = 0;
-        this.velocity = new Vector(0, 0);
+        this.velocity = new Vector(1, 0);
     }
     update() {
-        let velocity = this.velocity.getValue();
-        this.location.x += velocity[0];
-        this.location.y += velocity[1];
+        this.move();
     }
     eventCallBacks() { }
 }
@@ -72,6 +78,7 @@ class GameView extends ViewBase {
     constructor(canvasHelper) {
         super(canvasHelper);
         this.update = () => {
+            this.canvasHelper.clear();
             this.player.update();
             this.asteroids.forEach(e => {
                 e.update();

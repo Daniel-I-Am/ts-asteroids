@@ -50,4 +50,8 @@ class Canvas {
     public getHeight(): number {
         return this.canvas.height;
     }
+
+    public clear(): void {
+        this.ctx.clearRect(0, 0, this.getWidth(), this.getHeight());
+    }
 }
