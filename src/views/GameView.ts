@@ -47,15 +47,20 @@ class GameView extends ViewBase {
     public update = (): void => {
         // update the active entities
         this.canvasHelper.clear();
+
+        // move the player
         this.player.update();
+
+        // move the asteroids
         this.asteroids.forEach(e => {
             e.update();
         });
 
-        // draw the active entities
+        // draw the active asteroids
         this.asteroids.forEach(e => {
             e.draw();
         });
+        // draw the player
         this.player.draw();
 
         // Finish up with the GUI, should be over top everything else
