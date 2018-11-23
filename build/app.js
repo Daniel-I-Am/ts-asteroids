@@ -88,11 +88,13 @@ class CanvasHelper {
         this.ctx.textBaseline = baseLine;
         this.ctx.fillText(text, location.x, location.y);
     }
-    drawButton(src, caption, location, callback) {
+    drawButton(src, caption, location, callback = null) {
         let image = this.drawImage(src, location, 0);
         if (!image)
             return;
         this.writeText(caption, 24, location, "center", "middle", "black");
+        if (!callback)
+            return;
         let _listener = (event) => {
             let topleft = { x: this.canvas.offsetLeft + location.x - image.width / 2, y: this.canvas.offsetTop + location.y - image.height / 2 }, bottomRight = { x: this.canvas.offsetLeft + location.x + image.width / 2, y: this.canvas.offsetTop + location.y + image.height / 2 };
             if (event.x < bottomRight.x && event.x > topleft.x && event.y < bottomRight.y && event.y > topleft.y) {
@@ -261,7 +263,7 @@ class Asteroid extends Entity {
         this.location = location;
         this.rotation = rotation;
         this.rotationRate = rotationRate;
-        this.velocity = new Vector(Math.cos(MathHelper.toRadian(rotation)) * speed, Math.sin(MathHelper.toRadian(rotation)) * speed).multiply(5);
+        this.velocity = new Vector(Math.cos(MathHelper.toRadian(rotation)), Math.sin(MathHelper.toRadian(rotation))).multiply(speed);
     }
     update() {
         this.move();
@@ -300,7 +302,7 @@ class GameView extends ViewBase {
             let asteroidType = asteroidImages[MathHelper.randomNumber(0, asteroidImages.length)];
             let asteroidSubImage = asteroidType.images[MathHelper.randomNumber(0, asteroidType.images.length)];
             let spriteSrc = `meteor${asteroidType.name}${asteroidSubImage}.png`;
-            let x = MathHelper.randomNumber(0, this.canvasHelper.getWidth()), y = MathHelper.randomNumber(0, this.canvasHelper.getHeight()), rot = MathHelper.randomNumber(0, 360), speed = MathHelper.randomNumber(0.1, 1.2, 1);
+            let x = MathHelper.randomNumber(0, this.canvasHelper.getWidth()), y = MathHelper.randomNumber(0, this.canvasHelper.getHeight()), rot = MathHelper.randomNumber(0, 360), speed = MathHelper.randomNumber(0.5, 6, 1);
             this.asteroids.push(new Asteroid(spriteSrc, canvasHelper, { x: x, y: y }, rot, speed));
         }
         if (callback)
