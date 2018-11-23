@@ -1,4 +1,4 @@
-/// <reference path="Interfaces.ts"/>
+/// <reference path="dataObjects/Interfaces.ts"/>
 /// <reference path="dataObjects/Vector.ts"/>
 
 /// <reference path="helpers/MathHelper.ts"/>
