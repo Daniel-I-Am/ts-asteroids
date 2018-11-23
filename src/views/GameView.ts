@@ -24,7 +24,7 @@ class GameView extends ViewBase {
             let x = MathHelper.randomNumber(0, this.canvasHelper.getWidth()),
                 y = MathHelper.randomNumber(0, this.canvasHelper.getHeight()),
                 rot = MathHelper.randomNumber(0, 360),
-                speed = MathHelper.randomNumber(0.1, 1.2, 1);
+                speed = MathHelper.randomNumber(0.5, 6, 1);
             this.asteroids.push(new Asteroid(spriteSrc, canvasHelper, <Location>{x: x, y: y}, rot, speed))
         }
         if (callback)

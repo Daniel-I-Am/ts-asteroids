@@ -6,7 +6,7 @@ class Asteroid extends Entity {
         this.location = location;
         this.rotation = rotation;
         this.rotationRate = rotationRate;
-        this.velocity = new Vector(Math.cos(MathHelper.toRadian(rotation))*speed, Math.sin(MathHelper.toRadian(rotation))*speed).multiply(5);
+        this.velocity = new Vector(Math.cos(MathHelper.toRadian(rotation)), Math.sin(MathHelper.toRadian(rotation))).multiply(speed);
     }
 
     public update() {
