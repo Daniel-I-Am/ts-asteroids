@@ -1,3 +1,8 @@
+/* 
+ * This file is not going to get a lot of comments.
+ * It is just math, a lot of it. There's nothing difficult about it.
+ * These are standard mathematical operations, just... on vectors.
+ */
 class Vector {
     private numbers: Array<number>;
 

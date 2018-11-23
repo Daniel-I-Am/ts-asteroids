@@ -31,16 +31,22 @@ class Game {
     }
 
     public loop = (): void => {
+        // the loop just needs to update the currently loaded view, let that handle the update instead :)
         this.currentView.update();
     }
     
     public switchView(newView: ViewBase): void {
+        // clear any interval currently set
         clearInterval(this.currentInterval);
+        // save the new interval
         this.currentInterval = this.newInterval;
+        // if this is not the first switch (if we previously had a view), stop it
         if (this.currentView)
             this.currentView.beforeExit();
+        // save the new view
         this.currentView = newView;
     }
 }
 
+// make the game object on the main canvas
 const game = new Game(<HTMLCanvasElement>document.getElementById('canvas'));
