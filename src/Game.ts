@@ -1,5 +1,5 @@
 /// <reference path="Interfaces.ts"/>
-/// <reference path="Vector.ts"/>
+/// <reference path="dataObjects/Vector.ts"/>
 
 /// <reference path="helpers/MathHelper.ts"/>
 /// <reference path="helpers/CanvasHelper.ts"/>
