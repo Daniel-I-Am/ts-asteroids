@@ -50,11 +50,12 @@ class CanvasHelper {
         src: string,
         caption: string,
         location: Location,
-        callback: (event: MouseEvent) => void
+        callback: (event: MouseEvent) => void = null
     ) {
         let image = this.drawImage(src, location, 0);
         if (!image) return;
         this.writeText(caption, 24, location, "center", "middle", "black")
+        if (!callback) return;
         let _listener = (event: MouseEvent) => {
             let topleft = <Location>{x: this.canvas.offsetLeft+location.x-image.width/2, y: this.canvas.offsetTop+location.y-image.height/2},
                 bottomRight = <Location>{x: this.canvas.offsetLeft+location.x+image.width/2, y: this.canvas.offsetTop+location.y+image.height/2};
