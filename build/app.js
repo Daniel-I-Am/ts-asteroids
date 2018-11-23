@@ -355,4 +355,18 @@ class Game {
     }
 }
 const game = new Game(document.getElementById('canvas'));
+class TitleView extends ViewBase {
+    constructor(canvasHelper, callback, highscores = new Array(), score = 0) {
+        super(canvasHelper);
+        this.canvasHelper.writeText(`You died with ${score} points!`, 48, { x: this.canvasHelper.getCenter().x, y: 100 });
+        this.canvasHelper.writeText("Highscores", 32, { x: this.canvasHelper.getCenter().x, y: this.canvasHelper.getCenter().y - 100 });
+        highscores.forEach((e, i) => {
+            this.canvasHelper.writeText(`${e.playerName} - ${e.score}`, 32, { x: this.canvasHelper.getCenter().x, y: this.canvasHelper.getCenter().y - 100 + 32 * i });
+        });
+        callback();
+    }
+    update() { }
+    drawGUI() { }
+    beforeExit() { }
+}
 //# sourceMappingURL=app.js.map

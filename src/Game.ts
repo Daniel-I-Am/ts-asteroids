@@ -27,7 +27,11 @@ class Game {
         // Load the canvas object, once the images are loaded in,
         // load in the menu and then start the main loop
         this.currentInterval = null;
+        // uncomment what you want to see:
+        // menu screen and game
         this.canvasHelper = new CanvasHelper(canvas, () => {this.switchView(new MenuView(this.canvasHelper, () => {this.newInterval = setInterval(this.loop, 33)}, (newView: ViewBase) => this.switchView(newView)))});
+        // title screen
+        //this.canvasHelper = new CanvasHelper(canvas, () => {this.switchView(new TitleView(this.canvasHelper, () => {}))});
     }
 
     public loop = (): void => {
