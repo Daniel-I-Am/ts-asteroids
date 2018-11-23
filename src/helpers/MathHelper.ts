@@ -1,6 +1,8 @@
 class MathHelper {
 
+    // we cannot instantiate the MathHelper. It can only have static methods
     private constructor() {}
+    
     /**
      * Generates a random number bigger (inclusive) than the min and smaller than the max
      * @param min 
