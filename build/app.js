@@ -230,13 +230,13 @@ var Asteroids;
             this.location.y += velocity[1];
             let myImage = this.canvasHelper.getImage(this.src);
             if (this.location.x < -myImage.width / 2)
-                this.location.x += this.canvasHelper.getWidth() + myImage.width;
+                this.location.x += this.canvasHelper.getWidth() + myImage.width - 1;
             if (this.location.x > this.canvasHelper.getWidth() + myImage.width / 2)
-                this.location.x -= this.canvasHelper.getWidth() + myImage.width;
+                this.location.x -= this.canvasHelper.getWidth() + myImage.width - 1;
             if (this.location.y < -myImage.height / 2)
-                this.location.y += this.canvasHelper.getHeight() + myImage.height;
+                this.location.y += this.canvasHelper.getHeight() + myImage.height - 1;
             if (this.location.y > this.canvasHelper.getHeight() + myImage.height / 2)
-                this.location.y -= this.canvasHelper.getHeight() + myImage.width;
+                this.location.y -= this.canvasHelper.getHeight() + myImage.height - 1;
         }
         changeSprite(newSrc) {
             this.src = newSrc;
