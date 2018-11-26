@@ -30,11 +30,12 @@ namespace Asteroids {
             // update the position
             this.location.x += velocity[0];
             this.location.y += velocity[1];
+            let myImage = this.canvasHelper.getImage(this.src);
             // if we are out of bounds, fix it
-            if (this.location.x < 0) this.location.x = this.canvasHelper.getWidth();
-            if (this.location.x > this.canvasHelper.getWidth()) this.location.x = 0;
-            if (this.location.y < 0) this.location.y = this.canvasHelper.getHeight();
-            if (this.location.y > this.canvasHelper.getHeight()) this.location.y = 0;
+            if (this.location.x < -myImage.width/2)                                 this.location.x += this.canvasHelper.getWidth() + myImage.width;
+            if (this.location.x > this.canvasHelper.getWidth() + myImage.width/2)   this.location.x -= this.canvasHelper.getWidth() + myImage.width;
+            if (this.location.y < -myImage.height/2)                                this.location.y += this.canvasHelper.getHeight() + myImage.height;
+            if (this.location.y > this.canvasHelper.getHeight() + myImage.height/2) this.location.y -= this.canvasHelper.getHeight() + myImage.width;
         }
 
         protected changeSprite(newSrc: string) {

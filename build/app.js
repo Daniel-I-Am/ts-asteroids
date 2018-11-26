@@ -111,9 +111,7 @@ var Asteroids;
             this.canvas.addEventListener('click', _listener);
         }
         drawImage(src, location, rotation) {
-            let image = this.spriteMapData.filter(obj => {
-                return obj.name === src;
-            })[0];
+            let image = this.getImage(src);
             if (!image)
                 return null;
             this.ctx.save();
@@ -121,6 +119,12 @@ var Asteroids;
             this.ctx.rotate(rotation);
             this.ctx.drawImage(this.spriteMap, image.x, image.y, image.width, image.height, -image.width / 2, -image.height / 2, image.width, image.height);
             this.ctx.restore();
+            return image;
+        }
+        getImage(src) {
+            let image = this.spriteMapData.filter(obj => {
+                return obj.name === src;
+            })[0];
             return image;
         }
         getCenter() {
@@ -136,9 +140,7 @@ var Asteroids;
             this.ctx.clearRect(0, 0, this.getWidth(), this.getHeight());
         }
         clearRect(src, location, rotation) {
-            let image = this.spriteMapData.filter(obj => {
-                return obj.name === src;
-            })[0];
+            let image = this.getImage(src);
             if (!image)
                 return null;
             this.ctx.save();
@@ -226,14 +228,15 @@ var Asteroids;
             let velocity = this.velocity.getValue();
             this.location.x += velocity[0];
             this.location.y += velocity[1];
-            if (this.location.x < 0)
-                this.location.x = this.canvasHelper.getWidth();
-            if (this.location.x > this.canvasHelper.getWidth())
-                this.location.x = 0;
-            if (this.location.y < 0)
-                this.location.y = this.canvasHelper.getHeight();
-            if (this.location.y > this.canvasHelper.getHeight())
-                this.location.y = 0;
+            let myImage = this.canvasHelper.getImage(this.src);
+            if (this.location.x < -myImage.width / 2)
+                this.location.x += this.canvasHelper.getWidth() + myImage.width;
+            if (this.location.x > this.canvasHelper.getWidth() + myImage.width / 2)
+                this.location.x -= this.canvasHelper.getWidth() + myImage.width;
+            if (this.location.y < -myImage.height / 2)
+                this.location.y += this.canvasHelper.getHeight() + myImage.height;
+            if (this.location.y > this.canvasHelper.getHeight() + myImage.height / 2)
+                this.location.y -= this.canvasHelper.getHeight() + myImage.width;
         }
         changeSprite(newSrc) {
             this.src = newSrc;

@@ -110,9 +110,7 @@ namespace Asteroids {
             rotation: number
         ): SpriteSheetTexture {
             // filters through all sprites, returns all matches. Then we grab the first and assign it to `image`
-            let image = this.spriteMapData.filter(obj => {
-                return obj.name === src
-            })[0];
+            let image = this.getImage(src);
             // if we did not find an image, return
             if (!image) return null;
             // save the current state
@@ -125,6 +123,13 @@ namespace Asteroids {
             this.ctx.drawImage(this.spriteMap, image.x, image.y, image.width, image.height, -image.width/2, -image.height/2, image.width, image.height);
             // reset to saved state
             this.ctx.restore();
+            return image;
+        }
+
+        public getImage(src: string): SpriteSheetTexture {
+            let image = this.spriteMapData.filter(obj => {
+                return obj.name === src;
+            })[0];
             return image;
         }
 
@@ -156,9 +161,7 @@ namespace Asteroids {
             rotation: number
         ): void {
             // filters through all sprites, returns all matches. Then we grab the first and assign it to `image`
-            let image = this.spriteMapData.filter(obj => {
-                return obj.name === src
-            })[0];
+            let image = this.getImage(src);
             // if we have no match, return
             if (!image) return null;
             // same as drawImage method
