@@ -1,5 +1,6 @@
 /// <reference path="dataObjects/Interfaces.ts"/>
 /// <reference path="dataObjects/Vector.ts"/>
+/// <reference path="dataObjects/Enums.ts"/>
 
 /// <reference path="helpers/MathHelper.ts"/>
 /// <reference path="helpers/CanvasHelper.ts"/>

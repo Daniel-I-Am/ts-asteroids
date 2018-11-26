@@ -235,6 +235,9 @@ var Asteroids;
             if (this.location.y > this.canvasHelper.getHeight())
                 this.location.y = 0;
         }
+        changeSprite(newSrc) {
+            this.src = newSrc;
+        }
     }
     Asteroids.Entity = Entity;
 })(Asteroids || (Asteroids = {}));
