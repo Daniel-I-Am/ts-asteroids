@@ -37,6 +37,10 @@ namespace Asteroids {
             if (this.location.y > this.canvasHelper.getHeight()) this.location.y = 0;
         }
 
+        protected changeSprite(newSrc: string) {
+            this.src = newSrc;
+        }
+
         /**
          * Every entity needs to implement it's own update method.
          * This update method should call this.move
